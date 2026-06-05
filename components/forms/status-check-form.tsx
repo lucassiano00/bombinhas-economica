@@ -12,10 +12,13 @@ export function StatusCheckForm() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
-    const form = new FormData(e.currentTarget)
-    const status = await verifyStatus(form.get('document') as string)
-    setResult(status)
-    setLoading(false)
+    try {
+      const form = new FormData(e.currentTarget)
+      const status = await verifyStatus(form.get('document') as string)
+      setResult(status)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -37,7 +40,7 @@ export function StatusCheckForm() {
           {result === 'not_found' ? (
             <p className="text-gray-500">Documento não encontrado.</p>
           ) : (
-            <Badge status={result} />
+            <Badge status={result as 'active' | 'inactive'} />
           )}
         </div>
       )}
