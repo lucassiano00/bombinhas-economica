@@ -49,7 +49,7 @@ export async function registerClient(input: RegisterInput): Promise<{ success: b
         documentType: d.documentType,
         documentNumber: d.documentNumber,
       }))
-    ).returning()
+    )
   }
 
   await sendRegistrationConfirmed({

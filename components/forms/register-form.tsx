@@ -123,17 +123,17 @@ export function RegisterForm() {
                 onChange={(e) => updateDependent(i, 'documentNumber', e.target.value)}
                 required
               />
-              <button type="button" onClick={() => removeDependent(i)} className="text-xs text-red-500 hover:text-red-700">
+              <Button type="button" variant="danger" onClick={() => removeDependent(i)} className="text-xs px-2 py-1">
                 Remover dependente
-              </button>
+              </Button>
             </div>
           ))}
         </div>
       )}
       {dependentsList.length < 5 && (
-        <button type="button" onClick={addDependent} className="text-sm text-blue-600 hover:underline">
+        <Button type="button" variant="secondary" onClick={addDependent} className="text-sm">
           + Adicionar dependente
-        </button>
+        </Button>
       )}
       <Button type="submit" disabled={loading} className="w-full">
         {loading ? 'Cadastrando...' : 'Criar meu cartão'}
