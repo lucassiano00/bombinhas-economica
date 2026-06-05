@@ -25,8 +25,7 @@ export function LoginForm() {
         setError('E-mail ou senha inválidos.')
         return
       }
-      router.refresh()
-      router.push('/')
+      router.push('/auth/redirect')
     } finally {
       setLoading(false)
     }
