@@ -1,10 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-const mockSend = vi.fn().mockResolvedValue({ id: 'email-id' })
+const { mockSend } = vi.hoisted(() => ({
+  mockSend: vi.fn().mockResolvedValue({ id: 'email-id' }),
+}))
+
 vi.mock('resend', () => ({
-  Resend: vi.fn().mockImplementation(() => ({
-    emails: { send: mockSend },
-  })),
+  Resend: vi.fn().mockImplementation(function () {
+    return { emails: { send: mockSend } }
+  }),
 }))
 
 import { sendRegistrationConfirmed, sendCardActivated } from '@/lib/email'

@@ -1,17 +1,7 @@
+// lib/email/index.ts
 import { Resend } from 'resend'
 
-type EmailClient = Pick<InstanceType<typeof Resend>, 'emails'>
-
-let _client: EmailClient | undefined
-
-function getClient(): EmailClient {
-  if (!_client) {
-    _client = (Resend as unknown as (key: string) => EmailClient)(
-      process.env.RESEND_API_KEY ?? ''
-    )
-  }
-  return _client
-}
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function sendRegistrationConfirmed({
   to,
@@ -25,7 +15,7 @@ export async function sendRegistrationConfirmed({
   const pixInstructions = `Chave PIX (CNPJ): ${process.env.NEXT_PUBLIC_PIX_KEY}\nValor: R$ 49,90`
   const wuInstructions = `Western Union\nBeneficiário: ${process.env.NEXT_PUBLIC_WU_BENEFICIARY}\nValor equivalente a R$ 49,90`
 
-  await getClient().emails.send({
+  await resend.emails.send({
     from: 'Economize SC <noreply@economizesc.com.br>',
     to,
     subject: 'Cadastro recebido — Economize SC',
@@ -40,7 +30,7 @@ export async function sendCardActivated({
   to: string
   name: string
 }) {
-  await getClient().emails.send({
+  await resend.emails.send({
     from: 'Economize SC <noreply@economizesc.com.br>',
     to,
     subject: 'Seu cartão está ativo — Economize SC!',
