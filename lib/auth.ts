@@ -36,7 +36,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role
+        token.role = user.role
         token.id = user.id
       }
       return token
@@ -44,13 +44,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     session({ session, token }) {
       if (session.user) {
         session.user.role = token.role as string
-        session.user.id = token.id as string
+        session.user.id = token.id ?? ''
       }
       return session
-    },
-    async redirect({ url, baseUrl }) {
-      if (url.startsWith(baseUrl)) return url
-      return baseUrl
     },
   },
   pages: {
