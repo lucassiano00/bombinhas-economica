@@ -1,34 +1,43 @@
-// lib/email/index.ts
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+const FROM = 'Bombinhas+ Econômica <noreply@bombinhaseconomica.com.br>'
+
+function appUrl() {
+  return (process.env.NEXT_PUBLIC_APP_URL ?? '').replace(/\/$/, '')
+}
 
 export async function sendRegistrationConfirmed({
   to,
   name,
+  locale,
 }: {
   to: string
   name: string
+  locale: 'pt' | 'es'
 }) {
+  void locale
   await resend.emails.send({
-    from: 'Economize SC <noreply@economizesc.com.br>',
+    from: FROM,
     to,
-    subject: 'Cadastro recebido — Economize SC',
-    text: `Olá, ${name}!\n\nSeu cadastro foi recebido. Para ativar seu cartão, realize o pagamento de R$ 49,90 via nosso site.\n\nAssim que confirmarmos o pagamento, você receberá seu cartão digital.\n\nEquipe Economize SC`,
+    subject: 'Cadastro recebido — Bombinhas+ Econômica',
+    text: `Olá, ${name}!\n\nRecebemos seu cadastro no Bombinhas+ Econômica. Para ativar seu cartão, conclua o pagamento de R$ 99,00 (anual) no checkout do Mercado Pago.\n\nAssim que o pagamento for aprovado, seu cartão digital é ativado automaticamente e você recebe um aviso por email.\n\nEquipe Bombinhas+ Econômica`,
   })
 }
 
 export async function sendCardActivated({
   to,
   name,
+  locale,
 }: {
   to: string
   name: string
+  locale: 'pt' | 'es'
 }) {
   await resend.emails.send({
-    from: 'Economize SC <noreply@economizesc.com.br>',
+    from: FROM,
     to,
-    subject: 'Seu cartão está ativo — Economize SC!',
-    text: `Olá, ${name}!\n\nSeu cartão Economize SC está ativo!\n\nAcesse: ${process.env.NEXT_PUBLIC_APP_URL}/cliente/cartao\n\nBoa temporada!\nEquipe Economize SC`,
+    subject: 'Seu cartão está ativo — Bombinhas+ Econômica!',
+    text: `Olá, ${name}!\n\nSeu cartão Bombinhas+ Econômica está ativo!\n\nAcesse: ${appUrl()}/${locale}/cliente/cartao\n\nBom proveito em Bombinhas!\nEquipe Bombinhas+ Econômica`,
   })
 }

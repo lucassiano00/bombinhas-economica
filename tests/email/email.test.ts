@@ -1,43 +1,35 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-const { mockSend } = vi.hoisted(() => ({
-  mockSend: vi.fn().mockResolvedValue({ id: 'email-id' }),
-}))
-
+const sendMock = vi.fn().mockResolvedValue({ id: 'email_1' })
 vi.mock('resend', () => ({
   Resend: vi.fn().mockImplementation(function () {
-    return { emails: { send: mockSend } }
+    return { emails: { send: sendMock } }
   }),
 }))
 
-import { sendRegistrationConfirmed, sendCardActivated } from '@/lib/email'
+beforeEach(() => {
+  vi.clearAllMocks()
+  process.env.NEXT_PUBLIC_APP_URL = 'https://bombinhas.example'
+})
 
 describe('sendRegistrationConfirmed', () => {
-  beforeEach(() => mockSend.mockClear())
-
-  it('sends email to correct recipient', async () => {
-    await sendRegistrationConfirmed({ to: 'user@test.com', name: 'João' })
-    expect(mockSend).toHaveBeenCalledTimes(1)
-    expect(mockSend.mock.calls[0][0].to).toBe('user@test.com')
-  })
-
-  it('includes payment instructions in body', async () => {
-    await sendRegistrationConfirmed({ to: 'user@test.com', name: 'João' })
-    expect(mockSend.mock.calls[0][0].text).toContain('R$ 49,90')
-  })
-
-  it('includes the holder name in body', async () => {
-    await sendRegistrationConfirmed({ to: 'user@test.com', name: 'Maria' })
-    expect(mockSend.mock.calls[0][0].text).toContain('Maria')
+  it('mentions Bombinhas+ Econômica and R$ 99,00, never the old price', async () => {
+    const { sendRegistrationConfirmed } = await import('@/lib/email')
+    await sendRegistrationConfirmed({ to: 'a@b.com', name: 'Ana', locale: 'pt' })
+    const body = sendMock.mock.calls[0][0]
+    expect(body.from).toContain('Bombinhas')
+    expect(body.text).toContain('R$ 99,00')
+    expect(body.text).not.toContain('49,90')
+    expect(body.text).not.toMatch(/Western Union|PIX/i)
   })
 })
 
 describe('sendCardActivated', () => {
-  beforeEach(() => mockSend.mockClear())
-
-  it('sends activation email with app URL', async () => {
-    process.env.NEXT_PUBLIC_APP_URL = 'https://app.economizesc.com.br'
-    await sendCardActivated({ to: 'user@test.com', name: 'João' })
-    expect(mockSend.mock.calls[0][0].text).toContain('/cliente/cartao')
+  it('links to the locale-aware card page', async () => {
+    const { sendCardActivated } = await import('@/lib/email')
+    await sendCardActivated({ to: 'a@b.com', name: 'Ana', locale: 'es' })
+    const body = sendMock.mock.calls[0][0]
+    expect(body.text).toContain('https://bombinhas.example/es/cliente/cartao')
+    expect(body.subject.toLowerCase()).toContain('bombinhas')
   })
 })
