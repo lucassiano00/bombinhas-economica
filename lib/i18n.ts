@@ -14,3 +14,9 @@ export function resolveLocale(acceptLanguage: string | null): Locale {
   if (primary.startsWith('es')) return 'es'
   return defaultLocale
 }
+
+export function needsLocalePrefix(pathname: string): boolean {
+  return !locales.some(
+    (l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`)
+  )
+}
