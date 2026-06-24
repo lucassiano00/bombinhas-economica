@@ -3,19 +3,11 @@
 import { db } from '@/lib/db'
 import { clients, dependents } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
+import { resolveStatus } from '@/lib/utils/resolve-status'
 
-type StatusResult = 'active' | 'inactive' | 'not_found'
+export { resolveStatus }
 
-export function resolveStatus(
-  client: { status: string } | null,
-  parentClient: { status: string } | null
-): StatusResult {
-  const status = client?.status ?? parentClient?.status
-  if (!status) return 'not_found'
-  return status === 'active' ? 'active' : 'inactive'
-}
-
-export async function verifyStatus(documentNumber: string): Promise<StatusResult> {
+export async function verifyStatus(documentNumber: string): Promise<'active' | 'inactive' | 'not_found'> {
   const [client] = await db
     .select({ status: clients.status })
     .from(clients)
