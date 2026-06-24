@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "tourists": "Turistas",
+    "residents": "Moradores",
+    "businesses": "Empresas",
+    "contact": "Contato"
+  },
+  "hero": {
+    "title": "Economize de verdade em Bombinhas SC",
+    "subtitle": "O cartão digital Bombinhas+ Econômica oferece descontos exclusivos em estabelecimentos.",
+    "cta": "Quero economizar agora"
+  },
+  "sections": {
+    "partners": "Alguns de nossos parceiros",
+    "categories": "Categorias de descontos por localização",
+    "emergency": "Emergência — Serviços 24 horas",
+    "price": "Valor do crédito",
+    "registerBr": "Cadastro brasileiros",
+    "registerForeign": "Cadastro estrangeiros"
+  },
+  "meta": {
+    "title": "Bombinhas+ Econômica — Cartão de Descontos",
+    "description": "Economize de verdade em Bombinhas/SC com o cartão de descontos digital."
+  }
+}

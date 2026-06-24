@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "tourists": "Turistas",
+    "residents": "Residentes",
+    "businesses": "Empresas",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "title": "Ahorra de verdad en Bombinhas SC",
+    "subtitle": "La tarjeta digital Bombinhas+ Econômica ofrece descuentos exclusivos en comercios.",
+    "cta": "Quiero ahorrar ahora"
+  },
+  "sections": {
+    "partners": "Algunos de nuestros socios",
+    "categories": "Categorías de descuentos por ubicación",
+    "emergency": "Emergencia — Servicios 24 horas",
+    "price": "Valor del crédito",
+    "registerBr": "Registro brasileños",
+    "registerForeign": "Registro extranjeros"
+  },
+  "meta": {
+    "title": "Bombinhas+ Econômica — Tarjeta de Descuentos",
+    "description": "Ahorra de verdad en Bombinhas/SC con la tarjeta de descuentos digital."
+  }
+}
