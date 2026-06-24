@@ -17,9 +17,13 @@ vi.mock('bcryptjs', () => ({ default: { hash: vi.fn().mockResolvedValue('hashed'
 beforeEach(() => {
   vi.clearAllMocks()
   insertReturning
-    .mockResolvedValueOnce([{ id: 'user_1' }]) // users
-    .mockResolvedValueOnce([{ id: 'client_1' }]) // clients
-    .mockResolvedValueOnce([{ id: 'pay_1' }]) // payments
+    .mockResolvedValueOnce([{ id: 'user_1' }]) // users (test 1)
+    .mockResolvedValueOnce([{ id: 'client_1' }]) // clients (test 1)
+    .mockResolvedValueOnce([{ id: 'pay_1' }]) // payments (test 1)
+    .mockResolvedValueOnce([{ id: 'user_2' }]) // users (test 2)
+    .mockResolvedValueOnce([{ id: 'client_2' }]) // clients (test 2)
+    .mockResolvedValueOnce([{ id: 'pay_2' }]) // payments (test 2)
+  insert.mockReturnValue({ values: insertValues })
   createPref.mockResolvedValue({ preferenceId: 'pref_1', initPoint: 'https://mp/checkout' })
 })
 
@@ -39,11 +43,31 @@ describe('registerClient', () => {
     })
 
     expect(res).toEqual({ success: true, initPoint: 'https://mp/checkout' })
+    expect(insertValues).toHaveBeenCalledWith(
+      expect.objectContaining({ amount: 9900, status: 'pending' })
+    )
     expect(createPref).toHaveBeenCalledWith(
       expect.objectContaining({ externalReference: 'pay_1', payerEmail: 'a@b.com', locale: 'es' })
     )
     expect(sendConfirmed).toHaveBeenCalledWith(
       expect.objectContaining({ to: 'a@b.com', name: 'Ana', locale: 'es' })
     )
+  })
+
+  it('inserts dependents when provided', async () => {
+    const { registerClient } = await import('@/lib/actions/register')
+    await registerClient({
+      email: 'a@b.com',
+      password: 'secret123',
+      fullName: 'Ana',
+      phone: '+5547999990000',
+      clientType: 'foreigner',
+      documentType: 'passport',
+      documentNumber: 'X123',
+      locale: 'es',
+      dependentsList: [{ fullName: 'Child', documentType: 'passport', documentNumber: 'Y999' }],
+    })
+    // db.insert called 4 times: users, clients, dependents, payments
+    expect(insert).toHaveBeenCalledTimes(4)
   })
 })
