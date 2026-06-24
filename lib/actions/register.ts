@@ -1,9 +1,10 @@
 'use server'
 
 import { db } from '@/lib/db'
-import { users, clients, dependents } from '@/lib/db/schema'
+import { users, clients, dependents, payments } from '@/lib/db/schema'
 import bcrypt from 'bcryptjs'
 import { sendRegistrationConfirmed } from '@/lib/email'
+import { createCheckoutPreference, CARD_PRICE_CENTS } from '@/lib/mercadopago'
 
 type DependentInput = {
   fullName: string
@@ -19,10 +20,13 @@ type RegisterInput = {
   clientType: 'brazilian' | 'foreigner'
   documentType: 'cpf' | 'dni' | 'passport'
   documentNumber: string
+  locale: 'pt' | 'es'
   dependentsList: DependentInput[]
 }
 
-export async function registerClient(input: RegisterInput): Promise<{ success: boolean }> {
+export async function registerClient(
+  input: RegisterInput
+): Promise<{ success: boolean; initPoint: string }> {
   const passwordHash = await bcrypt.hash(input.password, 12)
 
   const [user] = await db
@@ -39,6 +43,7 @@ export async function registerClient(input: RegisterInput): Promise<{ success: b
       clientType: input.clientType,
       documentType: input.documentType,
       documentNumber: input.documentNumber,
+      locale: input.locale,
       status: 'pending',
     })
     .returning()
@@ -54,10 +59,19 @@ export async function registerClient(input: RegisterInput): Promise<{ success: b
     )
   }
 
-  await sendRegistrationConfirmed({
-    to: input.email,
-    name: input.fullName,
+  const [payment] = await db
+    .insert(payments)
+    .values({ clientId: client.id, amount: CARD_PRICE_CENTS, status: 'pending' })
+    .returning()
+
+  const { initPoint } = await createCheckoutPreference({
+    externalReference: payment.id,
+    payerEmail: input.email,
+    payerName: input.fullName,
+    locale: input.locale,
   })
 
-  return { success: true }
+  await sendRegistrationConfirmed({ to: input.email, name: input.fullName, locale: input.locale })
+
+  return { success: true, initPoint }
 }

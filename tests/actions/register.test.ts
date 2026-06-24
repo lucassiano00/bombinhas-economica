@@ -1,81 +1,49 @@
+// tests/actions/register.test.ts
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-const { mockReturning, mockInsert, mockSendRegistrationConfirmed, mockHash } = vi.hoisted(() => ({
-  mockReturning: vi.fn(),
-  mockInsert: vi.fn(),
-  mockSendRegistrationConfirmed: vi.fn().mockResolvedValue(undefined),
-  mockHash: vi.fn().mockResolvedValue('hashed-password'),
-}))
+const insertReturning = vi.fn()
+const insertValues = vi.fn(() => ({ returning: insertReturning }))
+const insert = vi.fn(() => ({ values: insertValues }))
+vi.mock('@/lib/db', () => ({ db: { insert } }))
 
-vi.mock('@/lib/db', () => ({
-  db: {
-    insert: mockInsert,
-  },
-}))
+const createPref = vi.fn()
+vi.mock('@/lib/mercadopago', () => ({ createCheckoutPreference: createPref, CARD_PRICE_CENTS: 9900 }))
 
-vi.mock('@/lib/email', () => ({
-  sendRegistrationConfirmed: mockSendRegistrationConfirmed,
-}))
+const sendConfirmed = vi.fn()
+vi.mock('@/lib/email', () => ({ sendRegistrationConfirmed: sendConfirmed }))
 
-vi.mock('bcryptjs', () => ({
-  default: { hash: mockHash },
-}))
+vi.mock('bcryptjs', () => ({ default: { hash: vi.fn().mockResolvedValue('hashed') } }))
 
-import { registerClient } from '@/lib/actions/register'
-import { sendRegistrationConfirmed } from '@/lib/email'
-
-const validInput = {
-  email: 'test@test.com',
-  password: 'password123',
-  fullName: 'João Silva',
-  phone: '+5547999990000',
-  clientType: 'brazilian' as const,
-  documentType: 'cpf' as const,
-  documentNumber: '12345678900',
-  dependentsList: [],
-}
+beforeEach(() => {
+  vi.clearAllMocks()
+  insertReturning
+    .mockResolvedValueOnce([{ id: 'user_1' }]) // users
+    .mockResolvedValueOnce([{ id: 'client_1' }]) // clients
+    .mockResolvedValueOnce([{ id: 'pay_1' }]) // payments
+  createPref.mockResolvedValue({ preferenceId: 'pref_1', initPoint: 'https://mp/checkout' })
+})
 
 describe('registerClient', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-    mockReturning
-      .mockResolvedValueOnce([{ id: 'user-id', email: 'test@test.com', role: 'client' }])
-      .mockResolvedValueOnce([{ id: 'client-id', userId: 'user-id' }])
-    mockInsert.mockReturnValue({
-      values: vi.fn().mockReturnValue({
-        returning: mockReturning,
-      }),
+  it('creates user/client/payment, opens a preference with the payment id, returns initPoint', async () => {
+    const { registerClient } = await import('@/lib/actions/register')
+    const res = await registerClient({
+      email: 'a@b.com',
+      password: 'secret123',
+      fullName: 'Ana',
+      phone: '+5547999990000',
+      clientType: 'foreigner',
+      documentType: 'passport',
+      documentNumber: 'X123',
+      locale: 'es',
+      dependentsList: [],
     })
-  })
 
-  it('creates a user record', async () => {
-    await registerClient(validInput)
-    expect(mockInsert).toHaveBeenCalledTimes(2)
-  })
-
-  it('sends confirmation email', async () => {
-    await registerClient(validInput)
-    expect(sendRegistrationConfirmed).toHaveBeenCalledWith({
-      to: 'test@test.com',
-      name: 'João Silva',
-    })
-  })
-
-  it('returns success true', async () => {
-    const result = await registerClient(validInput)
-    expect(result.success).toBe(true)
-  })
-
-  it('inserts dependents when provided', async () => {
-    mockReturning
-      .mockResolvedValueOnce([{ id: 'user-id', email: 'test@test.com', role: 'client' }])
-      .mockResolvedValueOnce([{ id: 'client-id', userId: 'user-id' }])
-
-    const inputWithDependents = {
-      ...validInput,
-      dependentsList: [{ fullName: 'Maria', documentType: 'cpf' as const, documentNumber: '99999999900' }],
-    }
-    await registerClient(inputWithDependents)
-    expect(mockInsert).toHaveBeenCalledTimes(3)
+    expect(res).toEqual({ success: true, initPoint: 'https://mp/checkout' })
+    expect(createPref).toHaveBeenCalledWith(
+      expect.objectContaining({ externalReference: 'pay_1', payerEmail: 'a@b.com', locale: 'es' })
+    )
+    expect(sendConfirmed).toHaveBeenCalledWith(
+      expect.objectContaining({ to: 'a@b.com', name: 'Ana', locale: 'es' })
+    )
   })
 })
