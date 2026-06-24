@@ -5,8 +5,6 @@ import { clients, dependents } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 import { resolveStatus } from '@/lib/utils/resolve-status'
 
-export { resolveStatus }
-
 export async function verifyStatus(documentNumber: string): Promise<'active' | 'inactive' | 'not_found'> {
   const [client] = await db
     .select({ status: clients.status })

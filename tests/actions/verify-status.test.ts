@@ -6,7 +6,7 @@ vi.mock('@/lib/db', () => ({
   },
 }))
 
-import { resolveStatus } from '@/lib/actions/verify-status'
+import { resolveStatus } from '@/lib/utils/resolve-status'
 
 describe('resolveStatus', () => {
   it('returns active when client status is active', () => {
