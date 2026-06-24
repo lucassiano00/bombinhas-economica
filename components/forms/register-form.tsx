@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { useParams } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { registerClient } from '@/lib/actions/register'
@@ -7,6 +8,8 @@ import { registerClient } from '@/lib/actions/register'
 type DependentInput = { fullName: string; documentType: 'cpf' | 'dni' | 'passport'; documentNumber: string }
 
 export function RegisterForm() {
+  const params = useParams()
+  const locale = params.locale === 'es' ? 'es' : 'pt'
   const [step, setStep] = useState<'form' | 'pending'>('form')
   const [dependentsList, setDependentsList] = useState<DependentInput[]>([])
   const [error, setError] = useState('')
@@ -19,6 +22,7 @@ export function RegisterForm() {
     const form = new FormData(e.currentTarget)
     try {
       const result = await registerClient({
+        locale,
         email: form.get('email') as string,
         password: form.get('password') as string,
         fullName: form.get('fullName') as string,
@@ -28,6 +32,10 @@ export function RegisterForm() {
         documentNumber: form.get('documentNumber') as string,
         dependentsList,
       })
+      if (result.success && result.initPoint) {
+        window.location.href = result.initPoint
+        return
+      }
       if (result.success) setStep('pending')
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Erro ao cadastrar. Tente novamente.')
