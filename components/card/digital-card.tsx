@@ -4,7 +4,7 @@ type Dependent = {
   id: string
   clientId: string
   fullName: string
-  documentType: 'rg' | 'dni'
+  documentType: 'cpf' | 'dni' | 'passport'
   documentNumber: string
 }
 

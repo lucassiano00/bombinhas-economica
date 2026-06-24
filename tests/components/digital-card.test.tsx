@@ -28,7 +28,7 @@ describe('DigitalCard', () => {
     const props = {
       ...baseProps,
       dependents: [
-        { id: '1', clientId: 'c1', fullName: 'Maria Silva', documentType: 'rg' as const, documentNumber: '11111' },
+        { id: '1', clientId: 'c1', fullName: 'Maria Silva', documentType: 'cpf' as const, documentNumber: '11111' },
       ],
     }
     render(<DigitalCard {...props} />)

@@ -28,9 +28,10 @@ const validInput = {
   email: 'test@test.com',
   password: 'password123',
   fullName: 'João Silva',
-  documentType: 'rg' as const,
-  documentNumber: '12345678',
-  paymentMethod: 'pix' as const,
+  phone: '+5547999990000',
+  clientType: 'brazilian' as const,
+  documentType: 'cpf' as const,
+  documentNumber: '12345678900',
   dependentsList: [],
 }
 
@@ -57,7 +58,6 @@ describe('registerClient', () => {
     expect(sendRegistrationConfirmed).toHaveBeenCalledWith({
       to: 'test@test.com',
       name: 'João Silva',
-      paymentMethod: 'pix',
     })
   })
 
@@ -73,7 +73,7 @@ describe('registerClient', () => {
 
     const inputWithDependents = {
       ...validInput,
-      dependentsList: [{ fullName: 'Maria', documentType: 'rg' as const, documentNumber: '99999' }],
+      dependentsList: [{ fullName: 'Maria', documentType: 'cpf' as const, documentNumber: '99999999900' }],
     }
     await registerClient(inputWithDependents)
     expect(mockInsert).toHaveBeenCalledTimes(3)

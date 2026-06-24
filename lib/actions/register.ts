@@ -7,7 +7,7 @@ import { sendRegistrationConfirmed } from '@/lib/email'
 
 type DependentInput = {
   fullName: string
-  documentType: 'rg' | 'dni'
+  documentType: 'cpf' | 'dni' | 'passport'
   documentNumber: string
 }
 
@@ -15,9 +15,10 @@ type RegisterInput = {
   email: string
   password: string
   fullName: string
-  documentType: 'rg' | 'dni'
+  phone: string
+  clientType: 'brazilian' | 'foreigner'
+  documentType: 'cpf' | 'dni' | 'passport'
   documentNumber: string
-  paymentMethod: 'pix' | 'western_union'
   dependentsList: DependentInput[]
 }
 
@@ -34,9 +35,10 @@ export async function registerClient(input: RegisterInput): Promise<{ success: b
     .values({
       userId: user.id,
       fullName: input.fullName,
+      phone: input.phone,
+      clientType: input.clientType,
       documentType: input.documentType,
       documentNumber: input.documentNumber,
-      paymentMethod: input.paymentMethod,
       status: 'pending',
     })
     .returning()
@@ -55,7 +57,6 @@ export async function registerClient(input: RegisterInput): Promise<{ success: b
   await sendRegistrationConfirmed({
     to: input.email,
     name: input.fullName,
-    paymentMethod: input.paymentMethod,
   })
 
   return { success: true }

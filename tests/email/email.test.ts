@@ -16,19 +16,19 @@ describe('sendRegistrationConfirmed', () => {
   beforeEach(() => mockSend.mockClear())
 
   it('sends email to correct recipient', async () => {
-    await sendRegistrationConfirmed({ to: 'user@test.com', name: 'João', paymentMethod: 'pix' })
+    await sendRegistrationConfirmed({ to: 'user@test.com', name: 'João' })
     expect(mockSend).toHaveBeenCalledTimes(1)
     expect(mockSend.mock.calls[0][0].to).toBe('user@test.com')
   })
 
-  it('includes PIX instructions for pix payment', async () => {
-    await sendRegistrationConfirmed({ to: 'user@test.com', name: 'João', paymentMethod: 'pix' })
-    expect(mockSend.mock.calls[0][0].text).toContain('PIX')
+  it('includes payment instructions in body', async () => {
+    await sendRegistrationConfirmed({ to: 'user@test.com', name: 'João' })
+    expect(mockSend.mock.calls[0][0].text).toContain('R$ 49,90')
   })
 
-  it('includes Western Union instructions for western_union payment', async () => {
-    await sendRegistrationConfirmed({ to: 'user@test.com', name: 'João', paymentMethod: 'western_union' })
-    expect(mockSend.mock.calls[0][0].text).toContain('Western Union')
+  it('includes the holder name in body', async () => {
+    await sendRegistrationConfirmed({ to: 'user@test.com', name: 'Maria' })
+    expect(mockSend.mock.calls[0][0].text).toContain('Maria')
   })
 })
 

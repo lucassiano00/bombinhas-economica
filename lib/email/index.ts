@@ -6,20 +6,15 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 export async function sendRegistrationConfirmed({
   to,
   name,
-  paymentMethod,
 }: {
   to: string
   name: string
-  paymentMethod: 'pix' | 'western_union'
 }) {
-  const pixInstructions = `Chave PIX (CNPJ): ${process.env.NEXT_PUBLIC_PIX_KEY}\nValor: R$ 49,90`
-  const wuInstructions = `Western Union\nBeneficiário: ${process.env.NEXT_PUBLIC_WU_BENEFICIARY}\nValor equivalente a R$ 49,90`
-
   await resend.emails.send({
     from: 'Economize SC <noreply@economizesc.com.br>',
     to,
     subject: 'Cadastro recebido — Economize SC',
-    text: `Olá, ${name}!\n\nSeu cadastro foi recebido. Para ativar seu cartão, realize o pagamento:\n\n${paymentMethod === 'pix' ? pixInstructions : wuInstructions}\n\nAssim que confirmarmos o pagamento, você receberá seu cartão digital.\n\nEquipe Economize SC`,
+    text: `Olá, ${name}!\n\nSeu cadastro foi recebido. Para ativar seu cartão, realize o pagamento de R$ 49,90 via nosso site.\n\nAssim que confirmarmos o pagamento, você receberá seu cartão digital.\n\nEquipe Economize SC`,
   })
 }
 

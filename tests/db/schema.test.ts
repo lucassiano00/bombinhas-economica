@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { users, clients, dependents, partners, discountUsages } from '@/lib/db/schema'
-import { roleEnum, clientStatusEnum, documentTypeEnum, paymentMethodEnum } from '@/lib/db/schema'
+import { roleEnum, clientStatusEnum, documentTypeEnum } from '@/lib/db/schema'
 
 describe('database schema', () => {
   it('exports users table with required columns', () => {
@@ -28,6 +28,5 @@ describe('database schema', () => {
     expect(roleEnum).toBeDefined()
     expect(clientStatusEnum).toBeDefined()
     expect(documentTypeEnum).toBeDefined()
-    expect(paymentMethodEnum).toBeDefined()
   })
 })
