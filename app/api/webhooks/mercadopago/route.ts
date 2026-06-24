@@ -1,25 +1,6 @@
 import { NextResponse } from 'next/server'
-import crypto from 'crypto'
 import { applyPaymentNotification } from '@/lib/actions/activate-payment'
-
-// MP signs with: manifest = `id:<data.id>;request-id:<x-request-id>;ts:<ts>;`
-// header x-signature = `ts=...,v1=<hmac sha256 hex>`
-function isValidSignature(req: Request, dataId: string): boolean {
-  const secret = process.env.MP_WEBHOOK_SECRET
-  if (!secret) return false
-  const sig = req.headers.get('x-signature')
-  const requestId = req.headers.get('x-request-id') ?? ''
-  if (!sig) return false
-  const parts = Object.fromEntries(
-    sig.split(',').map((kv) => kv.split('=').map((s) => s.trim()))
-  )
-  const ts = parts['ts']
-  const v1 = parts['v1']
-  if (!ts || !v1) return false
-  const manifest = `id:${dataId};request-id:${requestId};ts:${ts};`
-  const hmac = crypto.createHmac('sha256', secret).update(manifest).digest('hex')
-  return crypto.timingSafeEqual(Buffer.from(hmac), Buffer.from(v1))
-}
+import { isValidMpSignature } from '@/lib/mp-webhook'
 
 export async function POST(req: Request) {
   const url = new URL(req.url)
@@ -38,7 +19,7 @@ export async function POST(req: Request) {
   if (type !== 'payment' || !dataId) {
     return NextResponse.json({ received: true }, { status: 200 })
   }
-  if (!isValidSignature(req, dataId)) {
+  if (!isValidMpSignature(req, dataId)) {
     return NextResponse.json({ error: 'invalid signature' }, { status: 401 })
   }
 

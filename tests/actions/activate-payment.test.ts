@@ -37,7 +37,7 @@ describe('applyPaymentNotification', () => {
     const result = await applyPaymentNotification('999')
 
     expect(result).toBe('activated')
-    expect(update).toHaveBeenCalled() // payment + client updated
+    expect(update).toHaveBeenCalledTimes(2) // payment + client updated
     expect(sendActivated).toHaveBeenCalledWith(
       expect.objectContaining({ to: 'a@b.com', name: 'Ana', locale: 'pt' })
     )
