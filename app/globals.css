@@ -1,28 +1,49 @@
 @import "tailwindcss";
 
 :root {
-  /* Brand anchors from the "B+" logo, in OKLCH.
-     Final ramp tuned during Impeccable polish (Parte 3). */
-  --navy: oklch(0.29 0.075 257);       /* Marinho Profundo — primary / trust */
-  --navy-deep: oklch(0.22 0.060 257);  /* navy hover / active */
-  --teal: oklch(0.68 0.105 184);       /* Verde-Água — action only, ≤15% rule */
-  --teal-deep: oklch(0.60 0.100 184);  /* teal hover */
-  --sand: oklch(0.95 0.015 85);        /* Areia Quente — warm neutral surfaces */
-  --ink: oklch(0.25 0.025 257);        /* body text — contrast ≥ 4.5:1 */
-  --surface: oklch(0.99 0.004 85);     /* warm white base */
-  --border: oklch(0.90 0.012 250);     /* 1px borders / dividers */
-  --danger: oklch(0.58 0.180 25);      /* error / destructive ONLY — never brand */
+  /* Bombinhas+ Econômica — palette taken faithfully from the reference mockup.
+     Navy structure + gold action, with green / blue / red as functional accents. */
+  --navy: #0c2350;          /* header, footer, value bar, telemed, wallet card */
+  --navy-900: #081a3d;      /* deepest navy / gradients */
+  --navy-800: #102a5c;      /* navy hover / card backs */
+  --gold: #f5b50a;          /* primary CTA, prices, highlights */
+  --gold-deep: #dd9f00;     /* gold hover */
+  --green: #157a3a;         /* BR form, success, "active" */
+  --green-deep: #0f5e2c;    /* green hover */
+  --check: #16a34a;         /* status check marks */
+  --blue: #1e40af;          /* foreigner form */
+  --blue-deep: #16308a;     /* blue hover */
+  --red: #d11f1f;           /* emergency services, restaurant accent */
+  --teal: #14b8b8;          /* market / beach category accents */
+
+  --ink: #15233b;           /* body text on light — contrast ≥ 4.5:1 */
+  --muted: #64748b;         /* secondary text / placeholders */
+  --surface: #ffffff;       /* white cards / sections */
+  --section: #f1f3f6;       /* light gray section background */
+  --border: #dce1e8;        /* 1px borders / dividers */
+  --field: #f7f9fb;         /* input fill */
+  --danger: #d11f1f;        /* error / destructive */
 }
 
 @theme inline {
   --color-navy: var(--navy);
-  --color-navy-deep: var(--navy-deep);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-green: var(--green);
+  --color-green-deep: var(--green-deep);
+  --color-check: var(--check);
+  --color-blue: var(--blue);
+  --color-blue-deep: var(--blue-deep);
+  --color-red: var(--red);
   --color-teal: var(--teal);
-  --color-teal-deep: var(--teal-deep);
-  --color-sand: var(--sand);
   --color-ink: var(--ink);
+  --color-muted: var(--muted);
   --color-surface: var(--surface);
+  --color-section: var(--section);
   --color-border: var(--border);
+  --color-field: var(--field);
   --color-danger: var(--danger);
   --font-sans: var(--font-jakarta);
 }
@@ -31,4 +52,5 @@ body {
   background: var(--surface);
   color: var(--ink);
   font-family: var(--font-jakarta), system-ui, sans-serif;
+  overflow-x: hidden;
 }
