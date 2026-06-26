@@ -14,7 +14,6 @@ interface RegisterFormProps {
 
 const STRINGS = {
   pt: {
-    heading: 'Criar meu cartão',
     labelEmail: 'E-mail',
     labelPassword: 'Senha (mínimo 8 caracteres)',
     labelFullName: 'Nome completo',
@@ -40,7 +39,6 @@ const STRINGS = {
     errorFallback: 'Erro ao cadastrar. Tente novamente.',
   },
   es: {
-    heading: 'Crear mi tarjeta',
     labelEmail: 'Correo electrónico',
     labelPassword: 'Contraseña (mínimo 8 caracteres)',
     labelFullName: 'Nombre completo',
@@ -132,8 +130,6 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
   return (
     <Card className="max-w-md mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-        <h2 className="text-xl font-extrabold text-navy">{s.heading}</h2>
-
         {error && (
           <p className="text-xs text-danger bg-danger/10 px-3 py-2 rounded-lg" role="alert">
             {error}

@@ -47,11 +47,9 @@ describe('RegisterForm', () => {
 
   it('renders Spanish labels when locale="es"', () => {
     render(<RegisterForm locale="es" />)
-    // heading — use role to distinguish from the identically-named submit button
-    expect(screen.getByRole('heading', { name: 'Crear mi tarjeta' })).toBeTruthy()
     // labelEmail in ES
     expect(screen.getByLabelText(/correo electrónico/i)).toBeTruthy()
-    // submit button in ES
+    // submit button in ES (heading is now at page level, not in component)
     expect(screen.getByRole('button', { name: /crear mi tarjeta/i })).toBeTruthy()
   })
 })

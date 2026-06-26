@@ -113,7 +113,7 @@ export function Registration({ locale }: { locale: Locale }) {
         {/* Price reassurance */}
         <p className="mt-6 text-center text-sm text-muted">
           {es
-            ? 'Apenas R$ 99,00 por año · Activación inmediata · Cancela cuando quieras'
+            ? 'R$ 99,00 por año · Activación inmediata · Cancela cuando quieras'
             : 'Apenas R$ 99,00 por ano · Ativação imediata · Cancele quando quiser'}
         </p>
       </div>
