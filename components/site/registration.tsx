@@ -23,7 +23,7 @@ export function Registration({ locale }: { locale: Locale }) {
           </h3>
           <p className="mt-2 text-sm text-muted">
             {es
-              ? 'Cadastro simples — cartão ativo na hora.'
+              ? 'Registro simple — tarjeta activa al instante.'
               : 'Cadastro simples — cartão ativo na hora.'}
           </p>
         </div>
@@ -39,7 +39,7 @@ export function Registration({ locale }: { locale: Locale }) {
             </div>
             <div className="px-6 py-5">
               <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-muted">
-                {es ? 'O que você vai precisar:' : 'O que você vai precisar:'}
+                {es ? 'Lo que vas a necesitar:' : 'O que você vai precisar:'}
               </p>
               <ul className="space-y-3">
                 <NeedItem text={es ? 'Nombre completo' : 'Nome completo'} />

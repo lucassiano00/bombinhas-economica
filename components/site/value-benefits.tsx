@@ -20,7 +20,7 @@ export function ValueBenefits({ locale }: { locale: Locale }) {
             <Wallet className="h-12 w-12 shrink-0 text-gold" strokeWidth={1.5} />
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-white/70">
-                {es ? 'Valor do cartão' : 'Valor do cartão'}
+                {es ? 'Valor de la tarjeta' : 'Valor do cartão'}
               </p>
               <p className="text-3xl font-black leading-none">
                 <span className="text-gold">R$ 99,00</span>{' '}
