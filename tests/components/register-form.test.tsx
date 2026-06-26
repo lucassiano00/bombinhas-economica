@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 vi.mock('@/lib/actions/register', () => ({ registerClient: vi.fn() }))
-vi.mock('next/navigation', () => ({ useParams: () => ({ locale: 'pt' }) }))
 
 import { RegisterForm } from '@/components/forms/register-form'
 import { registerClient } from '@/lib/actions/register'
@@ -21,20 +20,21 @@ beforeEach(() => {
 describe('RegisterForm', () => {
   it('redirects the browser to the Mercado Pago init_point on success', async () => {
     vi.mocked(registerClient).mockResolvedValue({ success: true, initPoint: 'https://mp/checkout/abc' })
-    render(<RegisterForm />)
+    // locale is now a prop (defaulting to 'pt'); no useParams mock needed
+    render(<RegisterForm locale="pt" />)
 
-    // Selectors matched to the REAL labels in register-form.tsx:
-    // label="Nome completo" id="fullName"
+    // Selectors matched to the REAL PT labels in register-form.tsx STRINGS.pt:
+    // labelFullName: 'Nome completo'
     await userEvent.type(screen.getByLabelText(/nome/i), 'Ana')
-    // label="E-mail" id="email"
+    // labelEmail: 'E-mail'
     await userEvent.type(screen.getByLabelText(/e-?mail/i), 'a@b.com')
-    // label="Senha (mínimo 8 caracteres)" id="password"
+    // labelPassword: 'Senha (mínimo 8 caracteres)'
     await userEvent.type(screen.getByLabelText(/senha/i), 'secret123')
-    // label="Telefone / WhatsApp" id="phone"
+    // labelPhone: 'Telefone / WhatsApp'
     await userEvent.type(screen.getByLabelText(/telefone/i), '+5547999990000')
-    // label="Número do documento" id="documentNumber"
+    // labelDocumentNumber: 'Número do documento'
     await userEvent.type(screen.getByLabelText(/número do documento/i), '12345678900')
-    // submit button: "Criar meu cartão"
+    // submit button: s.submit = 'Criar meu cartão'
     await userEvent.click(screen.getByRole('button', { name: /criar meu cartão/i }))
 
     await waitFor(() => {
@@ -43,5 +43,15 @@ describe('RegisterForm', () => {
       )
       expect(window.location.href).toBe('https://mp/checkout/abc')
     })
+  })
+
+  it('renders Spanish labels when locale="es"', () => {
+    render(<RegisterForm locale="es" />)
+    // heading — use role to distinguish from the identically-named submit button
+    expect(screen.getByRole('heading', { name: 'Crear mi tarjeta' })).toBeTruthy()
+    // labelEmail in ES
+    expect(screen.getByLabelText(/correo electrónico/i)).toBeTruthy()
+    // submit button in ES
+    expect(screen.getByRole('button', { name: /crear mi tarjeta/i })).toBeTruthy()
   })
 })
