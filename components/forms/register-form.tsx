@@ -68,7 +68,7 @@ const STRINGS = {
 } as const
 
 const SELECT_CLASS =
-  'w-full bg-field text-ink px-3 py-2 border border-border rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-colors'
+  'w-full bg-field text-ink text-sm px-3 py-2 border border-border rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-colors'
 
 export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
   const s = STRINGS[locale]

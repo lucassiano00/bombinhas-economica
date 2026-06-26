@@ -1,8 +1,19 @@
-import { isLocale } from '@/lib/i18n'
+import { isLocale, type Locale } from '@/lib/i18n'
 import { notFound } from 'next/navigation'
 import { SiteHeader } from '@/components/site/header'
 import { SiteFooter } from '@/components/site/footer'
 import { RegisterForm } from '@/components/forms/register-form'
+
+const PAGE_STRINGS: Record<Locale, { heading: string; subtitle: string }> = {
+  pt: {
+    heading: 'Criar meu cartão',
+    subtitle: 'Preencha o formulário para obter seu cartão Bombinhas+ Econômica.',
+  },
+  es: {
+    heading: 'Crear mi tarjeta',
+    subtitle: 'Completa el formulario para obtener tu tarjeta Bombinhas+ Econômica.',
+  },
+}
 
 export default async function CadastroPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -15,12 +26,10 @@ export default async function CadastroPage({ params }: { params: Promise<{ local
       {/* Navy hero strip — matches verificar/page.tsx pattern */}
       <div className="bg-navy px-4 py-12 text-center">
         <h1 className="text-3xl font-extrabold text-white sm:text-4xl">
-          {locale === 'es' ? 'Crear mi tarjeta' : 'Criar meu cartão'}
+          {PAGE_STRINGS[locale].heading}
         </h1>
         <p className="mt-2 text-sm text-white/75">
-          {locale === 'es'
-            ? 'Completa el formulario para obtener tu tarjeta Bombinhas+ Econômica.'
-            : 'Preencha o formulário para obter seu cartão Bombinhas+ Econômica.'}
+          {PAGE_STRINGS[locale].subtitle}
         </p>
       </div>
 
