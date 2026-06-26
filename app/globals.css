@@ -23,6 +23,12 @@
   --border: #dce1e8;        /* 1px borders / dividers */
   --field: #f7f9fb;         /* input fill */
   --danger: #d11f1f;        /* error / destructive */
+
+  /* Warning / pending state — amber distinct from --gold (which is reserved for CTA action).
+     --warning (#b45309, amber-700): badge bg + dot; white text on it = 5.02:1, passes AA.
+     --warning-deep (#92400e, amber-900): text on light amber surfaces (e.g. soft-tinted bg). */
+  --warning: #b45309;
+  --warning-deep: #92400e;
 }
 
 @theme inline {
@@ -45,6 +51,8 @@
   --color-border: var(--border);
   --color-field: var(--field);
   --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-warning-deep: var(--warning-deep);
   --font-sans: var(--font-jakarta);
 }
 
