@@ -17,7 +17,7 @@ export function Input({ label, error, className, id, ...props }: InputProps) {
       <input
         id={id}
         className={cn(
-          'bg-field px-3 py-2 border rounded-lg placeholder:text-ink placeholder:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-colors',
+          'bg-field text-ink px-3 py-2 border rounded-lg placeholder:text-muted placeholder:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-colors',
           error ? 'border-danger' : 'border-border',
           className
         )}
