@@ -1,18 +1,26 @@
 import { auth } from '@/lib/auth'
-import { redirect } from 'next/navigation'
+import { redirect, notFound } from 'next/navigation'
+import { isLocale } from '@/lib/i18n'
 
-export default async function SessionRedirectPage() {
+export default async function SessionRedirectPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isLocale(locale)) notFound()
+
   const session = await auth()
 
-  if (!session) redirect('/auth/login')
+  if (!session) redirect(`/${locale}/auth/login`)
 
   switch (session.user.role) {
     case 'admin':
-      redirect('/admin/dashboard')
+      redirect(`/${locale}/admin/dashboard`)
     case 'partner':
-      redirect('/parceiro/historico')
+      redirect(`/${locale}/parceiro/historico`)
     case 'client':
     default:
-      redirect('/cliente/cartao')
+      redirect(`/${locale}/cliente/cartao`)
   }
 }
