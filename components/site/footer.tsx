@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { CalendarDays, Mail, Building2 } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
 
@@ -7,6 +8,27 @@ export function SiteFooter({ locale }: { locale: Locale }) {
   const cnpj = process.env.NEXT_PUBLIC_CNPJ ?? '37.123.456/0001-89'
   return (
     <footer id="contato" className="bg-navy text-white">
+      {/* Pre-footer CTA — last conversion opportunity before the user leaves */}
+      <div className="border-b border-white/10">
+        <div className="mx-auto max-w-6xl px-4 py-10 text-center">
+          <h4 className="text-2xl font-black text-white sm:text-3xl">
+            {es ? '¿Listo para ahorrar?' : 'Pronto para economizar?'}
+          </h4>
+          <p className="mt-2 text-sm text-white/70">
+            {es
+              ? 'R$ 99,00 por año · Activación inmediata · Cancela cuando quieras'
+              : 'R$ 99,00 por ano · Ativação imediata · Cancele quando quiser'}
+          </p>
+          <Link
+            href={`/${locale}/cadastro`}
+            className="mt-5 inline-block rounded-full bg-gold px-8 py-3.5 text-sm font-extrabold tracking-wide text-navy transition-colors hover:bg-gold-deep"
+          >
+            {es ? 'QUIERO MI TARJETA' : 'QUERO MEU CARTÃO'}
+          </Link>
+        </div>
+      </div>
+
+      {/* Contact row */}
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:grid-cols-3">
         <div className="flex items-center gap-3">
           <CalendarDays className="h-7 w-7 shrink-0 text-gold" strokeWidth={1.5} />

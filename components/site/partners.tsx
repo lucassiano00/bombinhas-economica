@@ -5,11 +5,18 @@ export function Partners({ locale }: { locale: Locale }) {
   return (
     <section id="empresas" className="bg-section pb-10">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="rounded-2xl border border-border bg-surface px-6 py-7 shadow-sm">
-          <h3 className="text-center text-base font-extrabold tracking-wide text-navy">
-            {es ? 'ALGUNOS DE NUESTROS SOCIOS' : 'ALGUNS DE NOSSOS PARCEIROS'}
+        <div className="rounded-2xl border border-border bg-surface px-6 py-8 shadow-sm">
+          {/* Heading — sentence case, no uppercase tracked eyebrow */}
+          <h3 className="text-center text-xl font-black text-navy">
+            {es ? 'Nuestros socios en Bombinhas' : 'Nossos parceiros em Bombinhas'}
           </h3>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-5">
+          <p className="mt-1 text-center text-sm text-muted">
+            {es
+              ? 'Establecimientos reales, descuentos reales.'
+              : 'Estabelecimentos reais, descontos reais.'}
+          </p>
+
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
             <span className="text-xl font-black italic text-red">
               K<span className="text-navy">koch</span>
               <span className="ml-1 align-top text-[0.55rem] not-italic text-muted">

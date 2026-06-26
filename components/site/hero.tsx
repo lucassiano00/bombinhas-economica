@@ -17,13 +17,16 @@ export function Hero({ locale }: { locale: Locale }) {
     <section className="bg-section">
       {/* Hero banner */}
       <div
-        className="relative min-h-[460px] bg-cover bg-center sm:min-h-[540px]"
+        className="relative min-h-[480px] bg-cover bg-center sm:min-h-[560px]"
         style={{ backgroundImage: `url('${HERO_IMG}')` }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-transparent" />
-        <div className="relative mx-auto flex min-h-[460px] max-w-6xl items-center px-4 pb-24 pt-12 sm:min-h-[540px] sm:pb-28">
+        <div className="relative mx-auto flex min-h-[480px] max-w-6xl items-center px-4 pb-28 pt-12 sm:min-h-[560px] sm:pb-32">
           <div className="max-w-xl text-white">
-            <h2 className="text-5xl font-black leading-[0.98] tracking-tight sm:text-6xl">
+            <h2
+              className="text-5xl font-black leading-[0.98] tracking-tight sm:text-6xl"
+              style={{ textWrap: 'balance' } as React.CSSProperties}
+            >
               {es ? (
                 <>
                   Ahorra
@@ -42,11 +45,14 @@ export function Hero({ locale }: { locale: Locale }) {
                 </>
               )}
             </h2>
-            <p className="mt-5 max-w-sm text-base text-white/85">
+
+            {/* Sub-copy with price anchor — converts visitors before they scroll */}
+            <p className="mt-5 max-w-sm text-base leading-relaxed text-white/90">
               {es
-                ? 'La tarjeta digital Bombinhas+Econômica ofrece descuentos exclusivos en comercios.'
-                : 'O cartão digital Bombinhas+Econômica oferece descontos exclusivos em estabelecimentos.'}
+                ? 'Acceso a descuentos exclusivos en mercados, farmacias, restaurantes y más — por solo R$ 99,00/año.'
+                : 'Acesso a descontos exclusivos em mercados, farmácias, restaurantes e mais — por apenas R$ 99,00/ano.'}
             </p>
+
             <Link
               href={`/${locale}/cadastro`}
               className="mt-7 inline-flex items-center gap-3 rounded-full bg-gold px-7 py-3.5 text-sm font-extrabold tracking-wide text-navy shadow-lg transition-colors hover:bg-gold-deep"

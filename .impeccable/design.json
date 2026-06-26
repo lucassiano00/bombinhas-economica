@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-25T00:00:00.000Z",
+  "title": "Design System: Bombinhas+ Econômica",
+  "extensions": {
+    "colorMeta": {
+      "navy": { "role": "primary", "displayName": "Marinho Profundo", "canonical": "#0c2350", "tonalRamp": ["#050e22", "#081a3d", "#0c2350", "#102a5c", "#1c3c75", "#3457a0", "#6b86c2", "#aebfde"] },
+      "gold": { "role": "secondary", "displayName": "Dourado", "canonical": "#f5b50a", "tonalRamp": ["#5c4400", "#8a6600", "#b88800", "#dd9f00", "#f5b50a", "#f8c640", "#fbd980", "#fdecbf"] },
+      "green": { "role": "tertiary", "displayName": "Verde Sucesso", "canonical": "#157a3a", "tonalRamp": ["#063016", "#0a4a22", "#0f5e2c", "#157a3a", "#1c9e4c", "#3fc46f", "#86dca5", "#c5efd5"] },
+      "ink": { "role": "neutral", "displayName": "Tinta", "canonical": "#15233b", "tonalRamp": ["#0a1120", "#15233b", "#27384f", "#3e5067", "#64748b", "#94a3b3", "#c3cdd8", "#e8edf2"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Manchetes de hero. Plus Jakarta Sans 800, tracking apertado." },
+      "body": { "displayName": "Body", "purpose": "Texto corrido, máx 65–75ch, contraste ≥ 4.5:1." },
+      "label": { "displayName": "Label", "purpose": "Rótulos, badges e CTAs em caixa alta." }
+    },
+    "shadows": [
+      { "name": "card-hero", "value": "0 20px 40px -12px rgba(12,35,80,0.35)", "purpose": "Elevação única dos cards de parceiro sobrepostos ao hero (shadow-xl)." }
+    ],
+    "motion": [
+      { "name": "ease-state", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Transições de cor em hover/focus (transition-colors)." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "container", "value": "72rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary CTA",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ação principal: pílula dourada com texto marinho. O único elemento dourado por seção.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"/><polyline points=\"12 5 19 12 12 19\"/></svg>QUERO ECONOMIZAR AGORA</button>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:12px; background:#f5b50a; color:#0c2350; padding:14px 28px; border:none; border-radius:9999px; font-family:'Plus Jakarta Sans',system-ui,sans-serif; font-weight:800; font-size:0.875rem; letter-spacing:0.04em; box-shadow:0 10px 20px -8px rgba(12,35,80,0.4); cursor:pointer; transition:background 0.2s cubic-bezier(0.4,0,0.2,1); } .ds-btn-primary:hover { background:#dd9f00; } .ds-btn-primary:focus-visible { outline:3px solid #0c2350; outline-offset:2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ação secundária em marinho, cantos suaves.",
+      "html": "<button class=\"ds-btn-secondary\">Ver detalhes</button>",
+      "css": ".ds-btn-secondary { background:#0c2350; color:#fff; padding:10px 20px; border:none; border-radius:0.75rem; font-family:'Plus Jakarta Sans',system-ui,sans-serif; font-weight:600; font-size:0.9rem; cursor:pointer; transition:background 0.2s; } .ds-btn-secondary:hover { background:#102a5c; } .ds-btn-secondary:focus-visible { outline:3px solid #f5b50a; outline-offset:2px; }"
+    },
+    {
+      "name": "Partner Card",
+      "kind": "card",
+      "refersTo": "card-partner",
+      "description": "Card de parceiro com imagem, percentual em dourado e nome. Sobreposto ao hero com sombra.",
+      "html": "<article class=\"ds-card-partner\"><div class=\"ds-card-media\"><span class=\"ds-card-pct\">20%</span></div><div class=\"ds-card-body\"><strong>Beto Carrero World</strong><p>de desconto para assinantes</p></div></article>",
+      "css": ".ds-card-partner { overflow:hidden; border:1px solid #dce1e8; border-radius:1rem; background:#fff; box-shadow:0 20px 40px -12px rgba(12,35,80,0.35); font-family:'Plus Jakarta Sans',system-ui,sans-serif; max-width:280px; } .ds-card-media { position:relative; height:120px; background:linear-gradient(120deg,#0c2350,#102a5c); } .ds-card-pct { position:absolute; top:12px; right:14px; color:#f5b50a; font-weight:800; font-size:2rem; line-height:1; } .ds-card-body { padding:16px 20px; text-align:center; } .ds-card-body strong { color:#0c2350; font-weight:800; } .ds-card-body p { color:#15233b; font-size:0.875rem; margin:4px 0 0; }"
+    },
+    {
+      "name": "Field Input",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Campo de formulário com preenchimento suave e foco visível.",
+      "html": "<div class=\"ds-field\"><label for=\"cpf\">CPF</label><input id=\"cpf\" placeholder=\"000.000.000-00\" /></div>",
+      "css": ".ds-field { display:flex; flex-direction:column; gap:6px; font-family:'Plus Jakarta Sans',system-ui,sans-serif; max-width:280px; } .ds-field label { font-size:0.8rem; font-weight:600; color:#15233b; } .ds-field input { padding:8px 12px; background:#f7f9fb; border:1px solid #dce1e8; border-radius:0.75rem; color:#15233b; font-size:1rem; } .ds-field input::placeholder { color:#64748b; } .ds-field input:focus-visible { outline:none; border-color:#0c2350; box-shadow:0 0 0 3px rgba(245,181,10,0.35); }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge-active",
+      "description": "Status por cor + ponto + texto (acessível). Ativo = verde.",
+      "html": "<span class=\"ds-badge\"><span class=\"ds-dot\"></span>ATIVO</span>",
+      "css": ".ds-badge { display:inline-flex; align-items:center; gap:6px; background:#157a3a; color:#fff; padding:4px 12px; border-radius:9999px; font-family:'Plus Jakarta Sans',system-ui,sans-serif; font-size:0.75rem; font-weight:700; letter-spacing:0.04em; } .ds-dot { width:8px; height:8px; border-radius:9999px; background:#86dca5; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "O Cais — confiança à beira-mar",
+    "overview": "Estrutura sólida em marinho profundo, uma única voz de ação em dourado (sol/areia de Bombinhas), calor litorâneo e linguagem bilíngue de primeira classe. Rejeita cupom-Groupon, banco frio, slop de IA e excesso poluído.",
+    "keyCharacteristics": [
+      "Confiança como atributo número um: estrutura em marinho, prova social visível.",
+      "Dourado é a única voz de ação: raro, intencional, nunca promocional.",
+      "Calor litorâneo: marinho de mar profundo + dourado de sol, nunca cinza institucional.",
+      "Respiro e hierarquia: uma ação por seção.",
+      "Bilíngue PT/ES em pé de igualdade; WCAG 2.2 AA."
+    ],
+    "rules": [
+      { "name": "A Regra do Sinal Dourado", "body": "Dourado é ação confiável. ≤15% de qualquer tela; quase sempre significa 'pode seguir'. Banalizá-lo mata o sinal.", "section": "colors" },
+      { "name": "A Regra do Verde de Sucesso", "body": "Verde não vende, confirma. Cartão ativo, CPF verificado. Verde como CTA rouba o papel do dourado.", "section": "colors" },
+      { "name": "A Regra do Vermelho Proibido como Promoção", "body": "Vermelho só como erro/destrutivo ou categoria emergência/saúde — nunca para vender desconto.", "section": "colors" },
+      { "name": "A Regra da Família Única", "body": "Uma só família (Plus Jakarta Sans), vários pesos. Contraste vem de peso e tamanho.", "section": "typography" },
+      { "name": "A Regra do Plano em Repouso", "body": "Superfícies planas paradas; a única elevação assinada são os cards de parceiro sobrepostos ao hero.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do usar Marinho como estrutura e Dourado só para ação.",
+      "Do reservar verde para sucesso/verificação.",
+      "Do garantir contraste de corpo ≥ 4.5:1; --muted é metadado, não parágrafo.",
+      "Do comunicar status por cor + ícone + texto.",
+      "Do alinhar os primitivos components/ui aos tokens de marca."
+    ],
+    "donts": [
+      "Don't parecer cupom Groupon (vermelho gritante, OFERTA!!!).",
+      "Don't parecer banco frio (cinza institucional).",
+      "Don't cair em slop de IA (gradiente roxo, cards aninhados, gray-on-color).",
+      "Don't banalizar o dourado.",
+      "Don't emparelhar duas sans parecidas."
+    ]
+  }
+}

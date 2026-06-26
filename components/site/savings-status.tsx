@@ -18,6 +18,9 @@ export function SavingsStatus({ locale }: { locale: Locale }) {
               {es ? 'Podrás ahorrar fácil + de' : 'Você poderá economizar fácil + de'}
             </p>
             <p className="text-4xl font-black text-gold">R$ 1.500,00</p>
+            <p className="mt-1 text-xs text-white/60">
+              {es ? 'en descuentos durante el año' : 'em descontos ao longo do ano'}
+            </p>
           </div>
         </div>
 
@@ -26,17 +29,23 @@ export function SavingsStatus({ locale }: { locale: Locale }) {
           <div className="flex items-center gap-3">
             <ShieldCheck className="h-7 w-7 text-navy" />
             <h3 className="text-lg font-bold text-ink">
-              {es ? 'Verificación de estado' : 'Verificação de status'}
+              {es ? 'Verificación de status' : 'Verificação de status'}
             </h3>
           </div>
-          <div className="mt-4 flex flex-wrap gap-3">
+          {/* Explain what this means — reduces confusion */}
+          <p className="mt-2 text-sm text-muted">
+            {es
+              ? 'Cualquier socio verifica tu tarjeta por CPF o DNI — sin app, sin complicación.'
+              : 'Qualquer parceiro verifica seu cartão por CPF ou DNI — sem app, sem complicação.'}
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
             {statuses.map((s) => (
               <span
                 key={s}
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-field px-4 py-2 text-sm font-semibold text-ink"
+                className="inline-flex items-center gap-1.5 rounded-full bg-section px-3 py-1.5 text-xs font-semibold text-ink"
               >
+                <CheckCircle2 className="h-3.5 w-3.5 text-check" />
                 {s}
-                <CheckCircle2 className="h-5 w-5 text-check" />
               </span>
             ))}
           </div>

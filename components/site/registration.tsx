@@ -1,99 +1,121 @@
 import Link from 'next/link'
-import { User, Phone, FileText, Mail, CreditCard, IdCard } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
 
-function Field({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
+function NeedItem({ text }: { text: string }) {
   return (
-    <div className="flex items-center gap-2 rounded-lg border border-border bg-field px-3 py-2.5">
-      <Icon className="h-4 w-4 shrink-0 text-muted" />
-      <span className="text-sm text-muted">{label}</span>
-    </div>
-  )
-}
-
-function PayBadge({ label, className }: { label: string; className: string }) {
-  return (
-    <span
-      className={`grid h-7 min-w-[2.75rem] place-items-center rounded border border-border bg-surface px-1.5 text-[0.7rem] font-black ${className}`}
-    >
-      {label}
-    </span>
+    <li className="flex items-start gap-2.5">
+      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-check" />
+      <span className="text-sm leading-snug text-ink">{text}</span>
+    </li>
   )
 }
 
 export function Registration({ locale }: { locale: Locale }) {
   const es = locale === 'es'
   return (
-    <section id="turistas" className="bg-section py-12">
-      <div className="mx-auto grid max-w-6xl gap-6 px-4 lg:grid-cols-2">
-        {/* Brazilians */}
-        <div className="overflow-hidden rounded-2xl bg-surface shadow-lg">
-          <div className="flex items-center gap-2 bg-green px-5 py-3 text-white">
-            <span aria-hidden>🇧🇷</span>
-            <h3 className="text-sm font-extrabold tracking-wide">
-              {es ? 'REGISTRO BRASILEÑOS' : 'CADASTRO BRASILEIROS'}
-            </h3>
+    <section id="turistas" className="bg-section py-14">
+      <div className="mx-auto max-w-6xl px-4">
+        {/* Section heading */}
+        <div className="mb-8 text-center">
+          <h3 className="text-2xl font-black text-navy sm:text-3xl">
+            {es ? 'Únete en minutos' : 'Faça parte em minutos'}
+          </h3>
+          <p className="mt-2 text-sm text-muted">
+            {es
+              ? 'Cadastro simples — cartão ativo na hora.'
+              : 'Cadastro simples — cartão ativo na hora.'}
+          </p>
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-2">
+          {/* Brasileiros */}
+          <div className="overflow-hidden rounded-2xl bg-surface shadow-md">
+            <div className="flex items-center gap-2 bg-green px-5 py-3.5 text-white">
+              <span aria-hidden>🇧🇷</span>
+              <h4 className="font-extrabold tracking-wide">
+                {es ? 'Brasileños' : 'Brasileiros'}
+              </h4>
+            </div>
+            <div className="px-6 py-5">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-muted">
+                {es ? 'O que você vai precisar:' : 'O que você vai precisar:'}
+              </p>
+              <ul className="space-y-3">
+                <NeedItem text={es ? 'Nombre completo' : 'Nome completo'} />
+                <NeedItem text="CPF" />
+                <NeedItem text={es ? 'Teléfono (WhatsApp)' : 'Telefone (WhatsApp)'} />
+                <NeedItem text="E-mail" />
+              </ul>
+
+              <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-border pt-4">
+                <span className="text-xs text-muted">
+                  {es ? 'Pago via' : 'Pagamento via'}
+                </span>
+                <span className="rounded border border-[#009ee3] px-2 py-0.5 text-[0.65rem] font-black text-[#009ee3]">
+                  Mercado Pago
+                </span>
+                <span className="text-xs text-muted">
+                  {es ? '(tarjeta o Pix)' : '(cartão ou Pix)'}
+                </span>
+              </div>
+
+              <Link
+                href={`/${locale}/cadastro`}
+                className="mt-5 block rounded-full bg-gold py-3.5 text-center text-sm font-extrabold tracking-wide text-navy transition-colors hover:bg-gold-deep"
+              >
+                {es ? 'QUIERO PARTICIPAR →' : 'QUERO FAZER PARTE →'}
+              </Link>
+            </div>
           </div>
-          <div className="space-y-3 px-5 py-5">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Field icon={User} label={es ? 'Nombre completo' : 'Nome completo'} />
-              <Field icon={Phone} label={es ? 'Teléfono (WhatsApp)' : 'Telefone (WhatsApp)'} />
-              <Field icon={FileText} label="CPF" />
-              <Field
-                icon={CreditCard}
-                label={es ? 'Tarjeta de crédito/débito' : 'Cartão de crédito/débito'}
-              />
-            </div>
-            <Field icon={Mail} label="E-mail" />
 
-            <div className="flex items-center gap-2 pt-1">
-              <PayBadge label="VISA" className="italic text-blue" />
-              <PayBadge label="MC" className="text-red" />
-              <PayBadge label="elo" className="text-ink" />
-              <PayBadge label="AMEX" className="text-blue" />
+          {/* Estrangeiros */}
+          <div className="overflow-hidden rounded-2xl bg-surface shadow-md">
+            <div className="flex items-center gap-2 bg-blue px-5 py-3.5 text-white">
+              <span aria-hidden>🌎</span>
+              <h4 className="font-extrabold tracking-wide">
+                {es ? 'Extranjeros' : 'Estrangeiros'}
+              </h4>
             </div>
+            <div className="px-6 py-5">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-muted">
+                {es ? 'Lo que vas a necesitar:' : 'O que você vai precisar:'}
+              </p>
+              <ul className="space-y-3">
+                <NeedItem text={es ? 'Nombre completo' : 'Nome completo'} />
+                <NeedItem text={es ? 'DNI / Pasaporte' : 'DNI / Passaporte'} />
+                <NeedItem text={es ? 'Teléfono (WhatsApp)' : 'Telefone (WhatsApp)'} />
+                <NeedItem text="E-mail" />
+              </ul>
 
-            <Link
-              href={`/${locale}/cadastro`}
-              className="mt-2 block rounded-lg bg-green py-3 text-center text-sm font-extrabold tracking-wide text-white transition-colors hover:bg-green-deep"
-            >
-              {es ? 'QUIERO PARTICIPAR' : 'QUERO FAZER PARTE'}
-            </Link>
+              <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-border pt-4">
+                <span className="text-xs text-muted">
+                  {es ? 'Pago via' : 'Pagamento via'}
+                </span>
+                <span className="rounded border border-[#009ee3] px-2 py-0.5 text-[0.65rem] font-black text-[#009ee3]">
+                  Mercado Pago
+                </span>
+                <span className="text-xs text-muted">
+                  {es ? '(tarjeta o Pix)' : '(cartão ou Pix)'}
+                </span>
+              </div>
+
+              <Link
+                href={`/${locale}/cadastro`}
+                className="mt-5 block rounded-full bg-gold py-3.5 text-center text-sm font-extrabold tracking-wide text-navy transition-colors hover:bg-gold-deep"
+              >
+                {es ? 'QUIERO PARTICIPAR →' : 'QUERO FAZER PARTE →'}
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Foreigners */}
-        <div className="overflow-hidden rounded-2xl bg-surface shadow-lg">
-          <div className="flex items-center gap-2 bg-blue px-5 py-3 text-white">
-            <span aria-hidden>🌎</span>
-            <h3 className="text-sm font-extrabold tracking-wide">
-              {es ? 'REGISTRO EXTRANJEROS' : 'CADASTRO ESTRANGEIROS'}
-            </h3>
-          </div>
-          <div className="space-y-3 px-5 py-5">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Field icon={User} label={es ? 'Nombre completo' : 'Nome completo'} />
-              <Field icon={Mail} label="E-mail" />
-              <Field icon={IdCard} label={es ? 'DNI / Pasaporte' : 'DNI / Passaporte'} />
-              <Field icon={Phone} label={es ? 'Teléfono (WhatsApp)' : 'Telefone (WhatsApp)'} />
-            </div>
-
-            <div className="flex items-center justify-end gap-2 pt-1 text-sm text-muted">
-              <span>{es ? 'Forma de pago:' : 'Forma de pagamento:'}</span>
-              <span className="grid h-7 place-items-center rounded bg-[#32bcad] px-3 text-xs font-black text-white">
-                pix
-              </span>
-            </div>
-
-            <Link
-              href={`/${locale}/cadastro`}
-              className="mt-2 block rounded-lg bg-blue py-3 text-center text-sm font-extrabold tracking-wide text-white transition-colors hover:bg-blue-deep"
-            >
-              {es ? 'QUIERO PARTICIPAR' : 'QUERO FAZER PARTE'}
-            </Link>
-          </div>
-        </div>
+        {/* Price reassurance */}
+        <p className="mt-6 text-center text-sm text-muted">
+          {es
+            ? 'Apenas R$ 99,00 por año · Activación inmediata · Cancela cuando quieras'
+            : 'Apenas R$ 99,00 por ano · Ativação imediata · Cancele quando quiser'}
+        </p>
       </div>
     </section>
   )

@@ -18,8 +18,9 @@ describe('Badge', () => {
     expect(screen.getByText('PENDENTE')).toBeInTheDocument()
   })
 
-  it('applies green color for active', () => {
+  it('applies brand green bg for active (bg-green, not bg-green-100)', () => {
     const { container } = render(<Badge status="active" />)
-    expect(container.firstChild).toHaveClass('bg-green-100')
+    // Tasks 1-3 aligned badge to on-brand tokens: bg-green (--color-green #157a3a) with white text
+    expect(container.firstChild).toHaveClass('bg-green')
   })
 })
