@@ -9,10 +9,10 @@ export function Button({ variant = 'primary', className, children, ...props }: B
   return (
     <button
       className={cn(
-        'px-4 py-2 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed',
-        variant === 'primary' && 'bg-blue-600 text-white hover:bg-blue-700',
-        variant === 'secondary' && 'bg-gray-200 text-gray-800 hover:bg-gray-300',
-        variant === 'danger' && 'bg-red-600 text-white hover:bg-red-700',
+        'px-4 py-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2',
+        variant === 'primary' && 'bg-gold text-navy font-extrabold rounded-full hover:bg-gold-deep',
+        variant === 'secondary' && 'bg-navy text-surface font-semibold rounded-lg hover:bg-navy-800',
+        variant === 'danger' && 'bg-danger text-surface font-semibold rounded-lg',
         className
       )}
       {...props}
