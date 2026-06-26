@@ -17,7 +17,7 @@ const LABELS: Record<Status, string> = {
 
 // Status communicated by THREE channels: color (bg) + dot (icon) + text label.
 // Contrast verified: active white-on-green = 5.41:1 ✓; pending white-on-amber = 5.02:1 ✓;
-// inactive ink-on-section = >8:1 ✓; error white-on-danger = ~4.7:1 ✓. All pass WCAG 2.2 AA.
+// inactive ink-on-section = >8:1 ✓; error white-on-danger = ~5.35:1 ✓. All pass WCAG 2.2 AA.
 const STYLES: Record<Status, string> = {
   active: 'bg-green text-surface',
   inactive: 'bg-section text-ink border border-border',

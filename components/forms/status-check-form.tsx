@@ -105,7 +105,7 @@ export function StatusCheckForm({ locale = 'pt' }: StatusCheckFormProps) {
 
       {result && (
         <Card className="mt-8 text-center py-6">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">
+          <p className="mb-3 text-sm font-semibold text-navy">
             {s.resultTitle}
           </p>
           {result === 'not_found' ? (

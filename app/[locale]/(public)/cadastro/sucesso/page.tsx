@@ -44,7 +44,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
             {/* Primary CTA — gold action */}
             <Link
               href={`/${locale}/auth/login`}
-              className="mt-8 inline-block rounded-full bg-gold px-8 py-3.5 text-sm font-extrabold tracking-wide text-navy transition-colors hover:bg-gold-deep"
+              className="mt-8 block w-full rounded-full bg-gold px-8 py-3.5 text-center text-sm font-extrabold tracking-wide text-navy transition-colors hover:bg-gold-deep"
             >
               {es ? 'ACCEDER AL ÁREA DE MIEMBRO →' : 'ACESSAR ÁREA DO CLIENTE →'}
             </Link>

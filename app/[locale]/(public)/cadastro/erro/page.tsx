@@ -43,7 +43,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
 
             {/* Possible reasons */}
             <div className="mt-6 rounded-lg bg-section px-5 py-4 text-left">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">
+              <p className="mb-3 text-sm font-semibold text-navy">
                 {es ? 'Posibles razones' : 'Possíveis motivos'}
               </p>
               <ul className="space-y-1.5 text-sm text-ink">
@@ -65,7 +65,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
             {/* Primary CTA — gold action to retry */}
             <Link
               href={`/${locale}/cadastro`}
-              className="mt-8 inline-block rounded-full bg-gold px-8 py-3.5 text-sm font-extrabold tracking-wide text-navy transition-colors hover:bg-gold-deep"
+              className="mt-8 block w-full rounded-full bg-gold px-8 py-3.5 text-center text-sm font-extrabold tracking-wide text-navy transition-colors hover:bg-gold-deep"
             >
               {es ? 'INTENTAR DE NUEVO →' : 'TENTAR NOVAMENTE →'}
             </Link>

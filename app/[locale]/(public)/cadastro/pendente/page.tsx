@@ -43,7 +43,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
 
             {/* What to expect — light section tint */}
             <div className="mt-6 rounded-lg bg-section px-5 py-4 text-left">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">
+              <p className="mb-3 text-sm font-semibold text-navy">
                 {es ? 'Próximos pasos' : 'Próximos passos'}
               </p>
               <ol className="space-y-2 text-sm text-ink">
