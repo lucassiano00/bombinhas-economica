@@ -64,7 +64,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
           {/* Mobile menu toggle — min 44×44px touch target */}
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 md:hidden"
+            className="press flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 md:hidden"
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-controls="mobile-nav"
@@ -79,7 +79,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       {open && (
         <nav
           id="mobile-nav"
-          className="absolute left-0 right-0 top-full border-t border-white/10 bg-navy px-4 py-2 shadow-lg md:hidden"
+          className="drawer-in absolute left-0 right-0 top-full border-t border-white/10 bg-navy px-4 py-2 shadow-lg md:hidden"
           aria-label="Navegação mobile"
         >
           {NAV.map((item) => (

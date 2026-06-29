@@ -1,4 +1,3 @@
-import { Activity } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
 
 const DOCTOR_IMG =
@@ -7,34 +6,46 @@ const DOCTOR_IMG =
 export function Telemedicine({ locale }: { locale: Locale }) {
   const es = locale === 'es'
   return (
-    <section className="bg-section py-10">
+    <section className="bg-section py-16">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="flex flex-col items-center gap-6 overflow-hidden rounded-2xl bg-navy px-6 py-6 text-white sm:flex-row">
+        <div className="grid items-center gap-9 overflow-hidden rounded-[26px] bg-gradient-to-b from-navy to-navy-900 p-8 text-white sm:grid-cols-[300px_1fr]">
           <img
             src={DOCTOR_IMG}
-            alt={es ? 'Médico de telemedicina' : 'Médico de telemedicina'}
-            className="h-32 w-32 shrink-0 rounded-full object-cover object-top ring-4 ring-white/15 sm:h-36 sm:w-36"
+            alt={es ? 'Médico de telemedicina con bata blanca' : 'Médico de telemedicina de jaleco branco'}
+            className="h-60 w-full rounded-[18px] object-cover object-top"
           />
-          <div className="flex-1 text-center sm:text-left">
-            <p className="flex items-center justify-center gap-2 text-lg font-bold sm:justify-start">
-              <Activity className="h-6 w-6 text-gold" />
+          <div>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-red px-3 py-1 text-xs font-bold tracking-wider text-white">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
+              24h
+            </span>
+            <h3 className="mt-4 text-2xl font-extrabold text-white sm:text-3xl">
               {es
-                ? 'Telemedicina 24h - Atención médica en línea por solo'
-                : 'Telemedicina 24h - Atendimento médico on-line por apenas'}
+                ? 'Telemedicina incluida, médico cuando lo necesites'
+                : 'Telemedicina incluída, médico quando precisar'}
+            </h3>
+            <p className="mt-2.5 max-w-[46ch] text-white/75">
+              {es ? (
+                <>
+                  Atención médica online 24 horas al día, donde estés — consultas por solo{' '}
+                  <span className="font-display text-xl font-extrabold text-gold">R$ 99,90</span>. Ideal para
+                  quien viaja lejos de casa.
+                </>
+              ) : (
+                <>
+                  Atendimento médico on-line 24 horas por dia, onde você estiver — consultas por apenas{' '}
+                  <span className="font-display text-xl font-extrabold text-gold">R$ 99,90</span>. Ideal para
+                  quem está viajando longe de casa.
+                </>
+              )}
             </p>
-            <p className="text-3xl font-black text-gold">R$ 99,90</p>
-            <p className="text-sm text-white/75">
-              {es
-                ? 'Consultas 24 horas al día, donde estés.'
-                : 'Consultas 24 horas por dia, onde você estiver.'}
-            </p>
+            <a
+              href="#contato"
+              className="press mt-6 inline-flex rounded-full bg-gold px-7 py-3.5 text-sm font-extrabold tracking-wide text-navy hover:bg-gold-deep"
+            >
+              {es ? 'Saber más →' : 'Saiba mais →'}
+            </a>
           </div>
-          <a
-            href="#contato"
-            className="shrink-0 rounded-full bg-gold px-7 py-3 text-sm font-extrabold tracking-wide text-navy transition-colors hover:bg-gold-deep"
-          >
-            {es ? 'SABER MÁS' : 'SAIBA MAIS'}
-          </a>
         </div>
       </div>
     </section>

@@ -21,7 +21,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           </p>
           <Link
             href={`/${locale}/cadastro`}
-            className="mt-5 inline-block rounded-full bg-gold px-8 py-3.5 text-sm font-extrabold tracking-wide text-navy transition-colors hover:bg-gold-deep"
+            className="press mt-5 inline-block rounded-full bg-gold px-8 py-3.5 text-sm font-extrabold tracking-wide text-navy hover:bg-gold-deep"
           >
             {es ? 'QUIERO MI TARJETA' : 'QUERO MEU CARTÃO'}
           </Link>

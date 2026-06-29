@@ -53,12 +53,175 @@
   --color-danger: var(--danger);
   --color-warning: var(--warning);
   --color-warning-deep: var(--warning-deep);
-  --font-sans: var(--font-jakarta);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
 }
 
 body {
   background: var(--surface);
   color: var(--ink);
-  font-family: var(--font-jakarta), system-ui, sans-serif;
+  font-family: var(--font-body), system-ui, sans-serif;
   overflow-x: hidden;
+}
+
+/* Headings carry the brand voice — Bricolage Grotesque (display).
+   Body, labels and UI stay on Figtree (the body sans). */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+/* Partner offers marquee — continuous scroll, pause on hover, motion-safe */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 46s linear infinite;
+}
+/* Pause on mouse hover (desktop) and on touch-hold (mobile :active) — so the
+   reader can actually stop a card to read it on a phone, not just with a mouse. */
+@media (hover: hover) {
+  .marquee-pause:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+.marquee-pause:active .marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   Motion system — "O cais desperta": calmo, confiante, litorâneo.
+   Tudo opt-in via .js (gate no <head>) para que sem-JS / SSR /
+   renderers headless sempre mostrem o conteúdo (nunca em branco).
+   ============================================================ */
+:root {
+  --ease-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Scroll reveal — elemento único. Escondido só quando .js está presente. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.6s var(--ease-quint),
+    transform 0.7s var(--ease-quint);
+}
+
+/* Scroll reveal — grupo com stagger de irmãos (listas/grids reais). */
+.js .reveal-group > * {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.js .reveal-group.is-in > * {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.55s var(--ease-quint),
+    transform 0.65s var(--ease-quint);
+}
+.js .reveal-group.is-in > *:nth-child(1) { transition-delay: 0ms; }
+.js .reveal-group.is-in > *:nth-child(2) { transition-delay: 60ms; }
+.js .reveal-group.is-in > *:nth-child(3) { transition-delay: 120ms; }
+.js .reveal-group.is-in > *:nth-child(4) { transition-delay: 180ms; }
+.js .reveal-group.is-in > *:nth-child(5) { transition-delay: 240ms; }
+.js .reveal-group.is-in > *:nth-child(6) { transition-delay: 300ms; }
+.js .reveal-group.is-in > *:nth-child(7) { transition-delay: 360ms; }
+.js .reveal-group.is-in > *:nth-child(8) { transition-delay: 420ms; }
+
+/* Hero load choreography — acima da dobra, animação CSS pura (sem IO). */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+.js .hero-in {
+  opacity: 0;
+  animation: rise-in 0.7s var(--ease-expo) forwards;
+  animation-delay: calc(var(--i, 0) * 90ms + 0.08s);
+}
+
+/* Ken Burns — empurrão lento e confiante na foto do hero (assinatura no mobile). */
+@keyframes ken-burns {
+  from { transform: scale(1.09); }
+  to   { transform: scale(1); }
+}
+.js .ken-burns {
+  animation: ken-burns 14s var(--ease-expo) forwards;
+}
+
+/* Micro-interações reutilizáveis. */
+.press {
+  transition:
+    transform 0.12s var(--ease-quint),
+    background-color 0.2s ease;
+}
+.press:active {
+  transform: scale(0.97);
+}
+.lift {
+  transition:
+    transform 0.25s var(--ease-quint),
+    box-shadow 0.25s var(--ease-quint);
+}
+@media (hover: hover) {
+  .lift:hover {
+    transform: translateY(-4px);
+  }
+}
+.lift:active {
+  transform: translateY(-1px) scale(0.997);
+}
+
+/* Mobile nav drawer — slide + fade ao abrir (é a navegação primária no celular). */
+@keyframes drawer-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+.js .drawer-in {
+  animation: drawer-in 0.22s var(--ease-quint);
+}
+
+/* Acessibilidade: nada de movimento para quem pediu para reduzir. */
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal,
+  .js .reveal.is-in,
+  .js .reveal-group > *,
+  .js .reveal-group.is-in > *,
+  .js .hero-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+  .js .ken-burns,
+  .js .drawer-in {
+    animation: none;
+  }
+  .press,
+  .lift {
+    transition: none;
+  }
+  .press:active,
+  .lift:hover,
+  .lift:active {
+    transform: none;
+  }
 }

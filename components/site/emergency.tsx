@@ -1,40 +1,46 @@
 import { Truck, Scale, KeyRound, Wrench } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
+import { Reveal } from './reveal'
 
 const ITEMS: { icon: LucideIcon; pt: string; es: string }[] = [
-  { icon: Truck,    pt: 'Reboque',           es: 'Grúa' },
+  { icon: Truck,    pt: 'Reboque',            es: 'Grúa' },
   { icon: Scale,    pt: 'Assessoria Jurídica', es: 'Asesoría Jurídica' },
-  { icon: KeyRound, pt: 'Chaveiro',           es: 'Cerrajero' },
-  { icon: Wrench,   pt: 'Oficina mecânica',   es: 'Taller mecánico' },
+  { icon: KeyRound, pt: 'Chaveiro',            es: 'Cerrajero' },
+  { icon: Wrench,   pt: 'Oficina mecânica',    es: 'Taller mecánico' },
 ]
 
 export function Emergency({ locale }: { locale: Locale }) {
   const es = locale === 'es'
   return (
-    <section className="bg-surface pb-12">
+    <section className="bg-surface pb-14 pt-4">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="rounded-2xl border-2 border-red/40 bg-surface px-6 py-7">
-          {/* Heading — bold but not uppercase-tracked eyebrow */}
-          <div className="flex items-center justify-center gap-4">
-            <span className="hidden h-px flex-1 bg-red/30 sm:block" />
-            <h3 className="text-center text-lg font-black text-red sm:whitespace-nowrap">
-              {es ? 'Emergencia — Servicios 24 h' : 'Emergência — Serviços 24 h'}
+        <div className="rounded-2xl bg-section px-6 py-8 ring-1 ring-border">
+          {/* Reassurance, not alarm — red is one decisive accent (the 24h pill), not the whole frame. */}
+          <div className="mb-7 flex flex-col items-center gap-2.5 text-center sm:flex-row sm:justify-center sm:gap-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-red px-2.5 py-1 text-xs font-bold text-white">
+              <span className="h-1.5 w-1.5 rounded-full bg-white" />
+              24h
+            </span>
+            <h3 className="text-xl font-extrabold text-navy">
+              {es ? 'Servicios de emergencia' : 'Serviços de emergência'}
             </h3>
-            <span className="hidden h-px flex-1 bg-red/30 sm:block" />
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-6 lg:grid-cols-4">
+          <Reveal group className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {ITEMS.map((item) => {
               const Icon = item.icon
               return (
-                <div key={item.pt} className="flex items-center justify-center gap-3">
-                  <Icon className="h-8 w-8 shrink-0 text-red" strokeWidth={2} />
-                  <span className="text-sm font-bold text-ink">{es ? item.es : item.pt}</span>
+                <div
+                  key={item.pt}
+                  className="lift flex items-center justify-center gap-3 rounded-xl bg-surface px-4 py-3.5 ring-1 ring-border"
+                >
+                  <Icon className="h-6 w-6 shrink-0 text-navy" strokeWidth={1.75} />
+                  <span className="text-sm font-semibold text-ink">{es ? item.es : item.pt}</span>
                 </div>
               )
             })}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

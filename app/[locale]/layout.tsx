@@ -1,13 +1,19 @@
 import type { Metadata } from 'next'
-import { Plus_Jakarta_Sans } from 'next/font/google'
+import { Bricolage_Grotesque, Figtree } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { isLocale } from '@/lib/i18n'
 import '../globals.css'
 
-const jakarta = Plus_Jakarta_Sans({
+// Display: characterful contemporary grotesque — warm but confident, carries the headlines.
+const display = Bricolage_Grotesque({
   subsets: ['latin'],
-  variable: '--font-jakarta',
-  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-display',
+})
+
+// Body/UI: humanist sans — friendly, highly legible. Pairs with the display on a contrast axis.
+const body = Figtree({
+  subsets: ['latin'],
+  variable: '--font-body',
 })
 
 export const metadata: Metadata = {
@@ -26,7 +32,20 @@ export default async function LocaleLayout({
   const { locale } = await params
   if (!isLocale(locale)) notFound()
   return (
-    <html lang={locale === 'pt' ? 'pt-BR' : 'es'} className={jakarta.variable}>
+    <html
+      lang={locale === 'pt' ? 'pt-BR' : 'es'}
+      className={`${display.variable} ${body.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Marca .js antes do paint: o motion só "esconde" conteúdo quando JS está ativo,
+            então sem-JS / SSR / renderers headless nunca mostram a página em branco. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   )

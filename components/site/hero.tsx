@@ -1,31 +1,32 @@
 import Link from 'next/link'
-import { ArrowRight, Home } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
+import { CardReel } from './card-reel'
 
+// Aerial coast — green hills meeting a turquoise bay, the iconic litoral-SC / Bombinhas look.
 const HERO_IMG =
-  'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1600&q=80'
-const KOCH_IMG =
-  'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80'
-const PARK_IMG =
-  'https://images.unsplash.com/photo-1597466599360-3b9775841aec?auto=format&fit=crop&w=800&q=80'
-const VILLA_IMG =
-  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80'
+  'https://images.unsplash.com/photo-1508971607899-a238a095d417?auto=format&fit=crop&w=1600&q=80'
 
 export function Hero({ locale }: { locale: Locale }) {
   const es = locale === 'es'
   return (
     <section className="bg-section">
       {/* Hero banner */}
-      <div
-        className="relative min-h-[480px] bg-cover bg-center sm:min-h-[560px]"
-        style={{ backgroundImage: `url('${HERO_IMG}')` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-transparent" />
-        <div className="relative mx-auto flex min-h-[480px] max-w-6xl items-center px-4 pb-28 pt-12 sm:min-h-[560px] sm:pb-32">
+      <div className="relative min-h-[560px] overflow-hidden sm:min-h-[620px]">
+        {/* Dedicated photo layer so the Ken Burns push scales the image, not the text. */}
+        <div
+          className="ken-burns absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${HERO_IMG}')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-navy/20" />
+        <div className="relative mx-auto grid min-h-[560px] max-w-6xl items-center gap-8 px-4 pb-28 pt-12 sm:min-h-[620px] sm:pb-32 lg:grid-cols-2">
           <div className="max-w-xl text-white">
+            <p className="hero-in mb-4 text-xs font-bold uppercase tracking-[0.18em] text-gold" style={{ '--i': 0 } as React.CSSProperties}>
+              Bombinhas · Santa Catarina
+            </p>
             <h2
-              className="text-5xl font-black leading-[0.98] tracking-tight sm:text-6xl"
-              style={{ textWrap: 'balance' } as React.CSSProperties}
+              className="hero-in text-[2.4rem] font-black leading-[1.02] tracking-tight sm:text-5xl sm:leading-[0.98] lg:text-6xl"
+              style={{ textWrap: 'balance', '--i': 1 } as React.CSSProperties}
             >
               {es ? (
                 <>
@@ -47,96 +48,50 @@ export function Hero({ locale }: { locale: Locale }) {
             </h2>
 
             {/* Sub-copy with price anchor — converts visitors before they scroll */}
-            <p className="mt-5 max-w-sm text-base leading-relaxed text-white/90">
+            <p className="hero-in mt-5 max-w-sm text-base leading-relaxed text-white/90" style={{ '--i': 2 } as React.CSSProperties}>
               {es
                 ? 'Acceso a descuentos exclusivos en mercados, farmacias, restaurantes y más — por solo R$ 99,00/año.'
                 : 'Acesso a descontos exclusivos em mercados, farmácias, restaurantes e mais — por apenas R$ 99,00/ano.'}
             </p>
 
-            <Link
-              href={`/${locale}/cadastro`}
-              className="mt-7 inline-flex items-center gap-3 rounded-full bg-gold px-7 py-3.5 text-sm font-extrabold tracking-wide text-navy shadow-lg transition-colors hover:bg-gold-deep"
-            >
-              <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
-              {es ? 'QUIERO AHORRAR AHORA' : 'QUERO ECONOMIZAR AGORA'}
-            </Link>
+            <div className="hero-in mt-7 flex flex-wrap items-center gap-3" style={{ '--i': 3 } as React.CSSProperties}>
+              <Link
+                href={`/${locale}/cadastro`}
+                className="press inline-flex items-center gap-3 rounded-full bg-gold px-7 py-3.5 text-sm font-extrabold tracking-wide text-navy shadow-lg hover:bg-gold-deep"
+              >
+                <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
+                {es ? 'QUIERO AHORRAR AHORA' : 'QUERO ECONOMIZAR AGORA'}
+              </Link>
+              <a
+                href="#turistas"
+                className="press inline-flex items-center rounded-full border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-bold text-white hover:bg-white/20"
+              >
+                {es ? 'Cómo funciona' : 'Ver como funciona'}
+              </a>
+            </div>
+
+            {/* Trust stats — all real claims (no invented numbers) */}
+            <div className="hero-in mt-9 flex flex-wrap gap-x-6 gap-y-4" style={{ '--i': 4 } as React.CSSProperties}>
+              <div>
+                <div className="font-display text-2xl font-extrabold leading-none">+R$ 1.500</div>
+                <div className="mt-1 text-xs text-white/70">{es ? 'ahorro por año' : 'economia por ano'}</div>
+              </div>
+              <div>
+                <div className="font-display text-2xl font-extrabold leading-none">PT · ES</div>
+                <div className="mt-1 text-xs text-white/70">{es ? 'bilingüe de verdad' : 'bilíngue de verdade'}</div>
+              </div>
+              <div>
+                <div className="font-display text-2xl font-extrabold leading-none">24h</div>
+                <div className="mt-1 text-xs text-white/70">{es ? 'telemedicina incluida' : 'telemedicina inclusa'}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* 3D card reel — desktop only (motion-heavy); coastal bg carries mobile */}
+          <div className="hidden lg:block">
+            <CardReel />
           </div>
         </div>
-      </div>
-
-      {/* Discount cards — overlapping the banner */}
-      <div className="mx-auto -mt-12 grid max-w-6xl gap-5 px-4 sm:grid-cols-3">
-        {/* Koch */}
-        <article className="overflow-hidden rounded-2xl border border-border bg-surface shadow-xl">
-          <div
-            className="h-44 bg-cover bg-center"
-            style={{ backgroundImage: `url('${KOCH_IMG}')` }}
-          />
-          <div className="px-5 pb-5 pt-4 text-center">
-            <span className="inline-block text-xl font-black italic tracking-tight text-red">
-              <span className="text-red">K</span>koch
-              <span className="ml-1 align-top text-[0.6rem] font-semibold not-italic text-muted">
-                supermercados
-              </span>
-            </span>
-            <p className="mt-2 text-sm text-ink">
-              {es ? 'Descuentos exclusivos en' : 'Descontos exclusivos no'}{' '}
-              <strong className="font-bold">Bombinhas SC</strong>
-            </p>
-          </div>
-        </article>
-
-        {/* Beto Carrero */}
-        <article className="overflow-hidden rounded-2xl border border-border bg-surface shadow-xl">
-          <div
-            className="relative h-44 bg-cover bg-center"
-            style={{ backgroundImage: `url('${PARK_IMG}')` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-l from-navy/90 via-navy/40 to-transparent" />
-            <div className="absolute right-4 top-4 text-right text-white">
-              <div className="text-4xl font-black leading-none text-gold">20%</div>
-              <div className="text-xs font-semibold">
-                {es ? 'de descuento en' : 'de desconto no'}
-                <br />
-                <span className="font-bold">Beto Carrero</span>
-              </div>
-            </div>
-          </div>
-          <div className="px-5 pb-5 pt-4 text-center">
-            <span className="text-base font-black tracking-tight text-navy">
-              BETO CARRERO <span className="text-gold">WORLD</span>
-            </span>
-            <p className="mt-1 text-sm font-bold text-ink">Beto Carrero</p>
-          </div>
-        </article>
-
-        {/* Imóvel de temporada */}
-        <article className="overflow-hidden rounded-2xl border border-border bg-surface shadow-xl">
-          <div
-            className="relative h-44 bg-cover bg-center"
-            style={{ backgroundImage: `url('${VILLA_IMG}')` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-l from-navy/85 via-navy/30 to-transparent" />
-            <div className="absolute right-4 top-4 text-right text-white">
-              <div className="text-4xl font-black leading-none text-gold">5%</div>
-              <div className="text-xs font-semibold">
-                {es ? 'de descuento en' : 'de desconto no'}
-                <br />
-                <span className="font-bold">{es ? 'tu alquiler' : 'seu imóvel'}</span>
-              </div>
-            </div>
-            <div className="absolute bottom-3 right-4 grid h-12 w-12 place-items-center rounded-xl bg-green text-white shadow-md">
-              <Home className="h-6 w-6" />
-            </div>
-          </div>
-          <div className="px-5 pb-5 pt-4 text-center">
-            <p className="text-sm text-ink">
-              {es
-                ? 'de descuento en tu alquiler de temporada'
-                : 'de desconto no seu imóvel de temporada'}
-            </p>
-          </div>
-        </article>
       </div>
     </section>
   )
