@@ -82,7 +82,7 @@ export function Hero({ locale }: { locale: Locale }) {
               </div>
               <div>
                 <div className="font-display text-2xl font-extrabold leading-none">24h</div>
-                <div className="mt-1 text-xs text-white/70">{es ? 'telemedicina incluida' : 'telemedicina inclusa'}</div>
+                <div className="mt-1 text-xs text-white/70">{es ? 'Tenemos telemedicina' : 'Temos telemedicina'}</div>
               </div>
             </div>
           </div>
