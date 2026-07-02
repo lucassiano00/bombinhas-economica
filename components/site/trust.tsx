@@ -51,10 +51,6 @@ export function Trust({ locale }: { locale: Locale }) {
             </p>
             <div className="mt-7 flex flex-wrap gap-x-7 gap-y-5">
               <div>
-                <div className="font-display text-2xl font-extrabold text-gold sm:text-3xl">PT·ES</div>
-                <div className="mt-1 text-sm text-white/70">{es ? 'bilingüe real' : 'bilíngue real'}</div>
-              </div>
-              <div>
                 <div className="font-display text-2xl font-extrabold text-gold sm:text-3xl">WCAG AA</div>
                 <div className="mt-1 text-sm text-white/70">{es ? 'accesible' : 'acessível'}</div>
               </div>

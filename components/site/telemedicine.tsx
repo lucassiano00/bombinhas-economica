@@ -12,6 +12,8 @@ export function Telemedicine({ locale }: { locale: Locale }) {
           <img
             src={DOCTOR_IMG}
             alt={es ? 'Médico de telemedicina con bata blanca' : 'Médico de telemedicina de jaleco branco'}
+            loading="lazy"
+            decoding="async"
             className="h-60 w-full rounded-[18px] object-cover object-top"
           />
           <div>
@@ -21,20 +23,20 @@ export function Telemedicine({ locale }: { locale: Locale }) {
             </span>
             <h3 className="mt-4 text-2xl font-extrabold text-white sm:text-3xl">
               {es
-                ? 'Telemedicina incluida, médico cuando lo necesites'
-                : 'Telemedicina incluída, médico quando precisar'}
+                ? 'Telemedicina 24h, médico cuando lo necesites'
+                : 'Telemedicina 24h, médico quando precisar'}
             </h3>
             <p className="mt-2.5 max-w-[46ch] text-white/75">
               {es ? (
                 <>
                   Atención médica online 24 horas al día, donde estés — consultas por solo{' '}
-                  <span className="font-display text-xl font-extrabold text-gold">R$ 99,90</span>. Ideal para
+                  <span className="font-display text-xl font-extrabold text-gold">R$ 79,90</span>. Ideal para
                   quien viaja lejos de casa.
                 </>
               ) : (
                 <>
                   Atendimento médico on-line 24 horas por dia, onde você estiver — consultas por apenas{' '}
-                  <span className="font-display text-xl font-extrabold text-gold">R$ 99,90</span>. Ideal para
+                  <span className="font-display text-xl font-extrabold text-gold">R$ 79,90</span>. Ideal para
                   quem está viajando longe de casa.
                 </>
               )}

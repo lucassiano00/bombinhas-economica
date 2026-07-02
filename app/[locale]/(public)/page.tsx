@@ -13,6 +13,7 @@ import { Telemedicine } from '@/components/site/telemedicine'
 import { Emergency } from '@/components/site/emergency'
 import { Partners } from '@/components/site/partners'
 import { SiteFooter } from '@/components/site/footer'
+import { StickyCta } from '@/components/site/sticky-cta'
 
 export default async function HomePage({ params }: PageProps<'/[locale]'>) {
   const { locale } = await params
@@ -36,6 +37,7 @@ export default async function HomePage({ params }: PageProps<'/[locale]'>) {
         <Partners locale={locale} />
       </main>
       <SiteFooter locale={locale} />
+      <StickyCta locale={locale} />
     </>
   )
 }

@@ -45,7 +45,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <div className="flex items-center gap-1 text-sm font-semibold">
             <Link
               href="/pt"
-              className={`flex items-center gap-1 rounded px-2 py-1 ${
+              className={`flex min-h-11 items-center gap-1 rounded px-2 ${
                 locale === 'pt' ? 'text-white' : 'text-white/55 hover:text-white'
               }`}
             >
@@ -54,7 +54,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             <span className="text-white/30">|</span>
             <Link
               href="/es"
-              className={`flex items-center gap-1 rounded px-2 py-1 ${
+              className={`flex min-h-11 items-center gap-1 rounded px-2 ${
                 locale === 'es' ? 'text-white' : 'text-white/55 hover:text-white'
               }`}
             >
@@ -64,7 +64,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
           {/* Mobile menu toggle — min 44×44px touch target */}
           <button
-            className="press flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 md:hidden"
+            className="press flex h-11 w-11 items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 md:hidden"
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-controls="mobile-nav"

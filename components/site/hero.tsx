@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
 import { CardReel } from './card-reel'
+import { CardGlimpse } from './card-glimpse'
 
 // Aerial coast — green hills meeting a turquoise bay, the iconic litoral-SC / Bombinhas look.
 const HERO_IMG =
@@ -77,13 +78,14 @@ export function Hero({ locale }: { locale: Locale }) {
                 <div className="mt-1 text-xs text-white/70">{es ? 'ahorro por año' : 'economia por ano'}</div>
               </div>
               <div>
-                <div className="font-display text-2xl font-extrabold leading-none">PT · ES</div>
-                <div className="mt-1 text-xs text-white/70">{es ? 'bilingüe de verdad' : 'bilíngue de verdade'}</div>
-              </div>
-              <div>
                 <div className="font-display text-2xl font-extrabold leading-none">24h</div>
                 <div className="mt-1 text-xs text-white/70">{es ? 'Tenemos telemedicina' : 'Temos telemedicina'}</div>
               </div>
+            </div>
+
+            {/* Cartão digital — o produto à vista no mobile (desktop tem o CardReel) */}
+            <div className="hero-in" style={{ '--i': 5 } as React.CSSProperties}>
+              <CardGlimpse />
             </div>
           </div>
 
