@@ -19,6 +19,9 @@ const body = Figtree({
 export const metadata: Metadata = {
   title: 'Bombinhas+ Econômica — Cartão de Descontos',
   description: 'Economize de verdade em Bombinhas/SC com o cartão de descontos digital.',
+  // PWA: experiência standalone no iOS (Android usa o manifest)
+  appleWebApp: { capable: true, title: 'Bombinhas+', statusBarStyle: 'default' },
+  icons: { apple: '/apple-touch-icon.png' },
 }
 
 export function generateStaticParams() {
@@ -42,7 +45,10 @@ export default async function LocaleLayout({
             então sem-JS / SSR / renderers headless nunca mostram a página em branco. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: "document.documentElement.classList.add('js')",
+            __html:
+              "document.documentElement.classList.add('js');" +
+              // PWA: registra o service worker (habilita Add to Home Screen)
+              "'serviceWorker' in navigator&&addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))",
           }}
         />
       </head>

@@ -35,7 +35,7 @@ const STRINGS = {
     labelDependentDoc: 'Número do documento',
     removeDependent: 'Remover dependente',
     addDependent: '+ Adicionar dependente',
-    submit: 'Criar meu cartão',
+    submit: 'Finalizar cadastro',
     submitting: 'Cadastrando…',
     pendingTitle: 'Cadastro recebido!',
     pendingBody:
@@ -60,7 +60,7 @@ const STRINGS = {
     labelDependentDoc: 'Número de documento',
     removeDependent: 'Eliminar dependiente',
     addDependent: '+ Agregar dependiente',
-    submit: 'Crear mi tarjeta',
+    submit: 'Finalizar registro',
     submitting: 'Registrando…',
     pendingTitle: '¡Registro recibido!',
     pendingBody:
@@ -89,7 +89,9 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
       const result = await registerClient({
         locale,
         email: form.get('email') as string,
-        password: form.get('password') as string,
+        // hotfix demo: cadastro coleta só 3 dados — senha provisória gerada aqui.
+        // ponytail: fluxo real = magic link / definir senha por e-mail, próxima sprint.
+        password: crypto.randomUUID(),
         fullName: form.get('fullName') as string,
         phone: '', // hotfix: campo removido da UI; coluna aceita vazio
         clientType: documentType === 'cpf' ? 'brazilian' : 'foreigner', // derivado do documento
@@ -134,27 +136,18 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
 
   return (
     <Card className="max-w-md mx-auto">
-      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+      {/* validação básica nativa (required/email) — noValidate removido */}
+      <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <p className="text-xs text-danger bg-danger/10 px-3 py-2 rounded-lg" role="alert">
             {error}
           </p>
         )}
 
-        <Input id="email" name="email" type="email" label={s.labelEmail} required disabled={loading} />
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          label={s.labelPassword}
-          required
-          minLength={8}
-          disabled={loading}
-        />
+        {/* hotfix demo: estritamente 3 dados, nesta ordem — Nome, Documento, E-mail.
+            Senha saiu da UI (gerada no submit); sem telefone, sem Passaporte. */}
         <Input id="fullName" name="fullName" label={s.labelFullName} required disabled={loading} />
 
-        {/* hotfix: telefone e "tipo de cliente" removidos — cliente é derivado
-            do documento; sem opção Passaporte (somente CPF ou DNI) */}
         <div className="flex flex-col gap-1">
           <label htmlFor="documentType" className="text-sm font-semibold text-ink">
             {s.labelDocumentType}
@@ -166,6 +159,8 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
         </div>
 
         <Input id="documentNumber" name="documentNumber" label={s.labelDocumentNumber} required disabled={loading} />
+
+        <Input id="email" name="email" type="email" label={s.labelEmail} required disabled={loading} />
 
         {dependentsList.length > 0 && (
           <div className="space-y-3">
@@ -209,6 +204,9 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
         <Button type="submit" disabled={loading} className="w-full py-3 text-sm tracking-wide">
           {loading ? s.submitting : s.submit}
         </Button>
+        <p className="text-center text-xs text-muted">
+          {locale === 'es' ? 'Pago seguro vía PIX' : 'Pagamento seguro via PIX'}
+        </p>
       </form>
     </Card>
   )

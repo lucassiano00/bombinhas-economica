@@ -28,13 +28,11 @@ describe('RegisterForm', () => {
     await userEvent.type(screen.getByLabelText(/nome/i), 'Ana')
     // labelEmail: 'E-mail'
     await userEvent.type(screen.getByLabelText(/e-?mail/i), 'a@b.com')
-    // labelPassword: 'Senha (mínimo 8 caracteres)'
-    await userEvent.type(screen.getByLabelText(/senha/i), 'secret123')
-    // hotfix: campo telefone removido da UI (backend recebe phone: '')
+    // hotfix demo: senha e telefone saíram da UI (senha é gerada no submit)
     // labelDocumentNumber: 'Número do documento'
     await userEvent.type(screen.getByLabelText(/número do documento/i), '12345678900')
-    // submit button: s.submit = 'Criar meu cartão'
-    await userEvent.click(screen.getByRole('button', { name: /criar meu cartão/i }))
+    // submit button: s.submit = 'Finalizar cadastro'
+    await userEvent.click(screen.getByRole('button', { name: /finalizar cadastro/i }))
 
     await waitFor(() => {
       expect(vi.mocked(registerClient)).toHaveBeenCalledWith(
@@ -49,6 +47,6 @@ describe('RegisterForm', () => {
     // labelEmail in ES
     expect(screen.getByLabelText(/correo electrónico/i)).toBeTruthy()
     // submit button in ES (heading is now at page level, not in component)
-    expect(screen.getByRole('button', { name: /crear mi tarjeta/i })).toBeTruthy()
+    expect(screen.getByRole('button', { name: /finalizar registro/i })).toBeTruthy()
   })
 })
