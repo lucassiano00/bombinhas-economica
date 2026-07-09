@@ -19,6 +19,7 @@ const STRINGS = {
     loading: 'Verificando…',
     errorEmpty: 'Por favor, informe o número do documento.',
     errorInvalid: 'Documento inválido. Verifique o número e tente novamente.',
+    errorGeneric: 'Não foi possível verificar agora. Tente novamente em instantes.',
     notFound: 'Documento não encontrado. Verifique o número ou entre em contato com o suporte.',
     resultTitle: 'Status do seu cartão',
     badgeActive: 'ATIVO',
@@ -31,6 +32,7 @@ const STRINGS = {
     loading: 'Verificando…',
     errorEmpty: 'Por favor, ingresa el número de documento.',
     errorInvalid: 'Documento inválido. Verifica el número e intenta nuevamente.',
+    errorGeneric: 'No se pudo verificar ahora. Intenta nuevamente en unos instantes.',
     notFound: 'Documento no encontrado. Verifica el número o contacta con soporte.',
     resultTitle: 'Estado de tu tarjeta',
     badgeActive: 'ACTIVO',
@@ -71,6 +73,9 @@ export function StatusCheckForm({ locale = 'pt' }: StatusCheckFormProps) {
     try {
       const status = await verifyStatus(raw)
       setResult(status)
+    } catch {
+      // Falha da action (DB/rede): mostra erro em vez de falhar em silêncio.
+      setInputError(s.errorGeneric)
     } finally {
       setLoading(false)
     }

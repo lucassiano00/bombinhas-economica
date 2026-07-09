@@ -23,6 +23,7 @@ const STRINGS = {
     submit:         'ENTRAR →',
     submitting:     'Entrando…',
     errorCredentials: 'E-mail ou senha inválidos.',
+    errorGeneric:   'Não foi possível entrar agora. Tente novamente.',
     noAccount:      'Não tem conta?',
     register:       'Cadastre-se',
   },
@@ -36,6 +37,7 @@ const STRINGS = {
     submit:         'ENTRAR →',
     submitting:     'Entrando…',
     errorCredentials: 'Correo electrónico o contraseña inválidos.',
+    errorGeneric:   'No se pudo iniciar sesión ahora. Intenta nuevamente.',
     noAccount:      '¿No tienes cuenta?',
     register:       'Regístrate',
   },
@@ -63,6 +65,9 @@ export function LoginForm({ locale }: LoginFormProps) {
         return
       }
       router.push(`/${locale}/auth/redirect`)
+    } catch {
+      // signIn lançou (rede/servidor): feedback em vez de falha silenciosa.
+      setCredError(s.errorGeneric)
     } finally {
       setLoading(false)
     }

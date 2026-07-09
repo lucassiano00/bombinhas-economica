@@ -45,9 +45,11 @@ export function InstallButton({ es }: { es: boolean }) {
 
   return (
     <div className="w-full">
+      {/* Terceiro nível de hierarquia: utilitário (texto), não compete com o
+          CTA dourado nem com "Ver como funciona" (outline). */}
       <button
         onClick={install}
-        className="press inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-bold text-white hover:bg-white/20"
+        className="press inline-flex items-center gap-2 px-1 py-3 text-sm font-semibold text-white/80 underline-offset-4 hover:text-white hover:underline"
       >
         <Smartphone className="h-4 w-4" strokeWidth={2.25} />
         {es ? 'Instalar la app' : 'Instalar o app'}

@@ -47,8 +47,11 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{
             __html:
               "document.documentElement.classList.add('js');" +
-              // PWA: registra o service worker (habilita Add to Home Screen)
-              "'serviceWorker' in navigator&&addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))",
+              // PWA: registra o SW só em produção (chunks hasheados = cache-first seguro).
+              // Em dev o SW cachearia chunks e quebraria o HMR, então desregistra.
+              (process.env.NODE_ENV === 'production'
+                ? "'serviceWorker' in navigator&&addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))"
+                : "'serviceWorker' in navigator&&navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister()})})"),
           }}
         />
       </head>
