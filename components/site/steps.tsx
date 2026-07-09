@@ -5,15 +5,16 @@ type Loc = { t: string; d: string }
 type Step = { no: string; pt: Loc; es: Loc }
 
 const STEPS: Step[] = [
+  // hotfix: 3 dados (sem WhatsApp/passaporte); PIX sem Mercado Pago nem preço fixo
   {
     no: '01',
-    pt: { t: 'Cadastre-se', d: 'Nome, documento (CPF ou DNI/passaporte), WhatsApp e e-mail. Em português ou espanhol.' },
-    es: { t: 'Registrate', d: 'Nombre, documento (CPF o DNI/pasaporte), WhatsApp y e-mail. En portugués o español.' },
+    pt: { t: 'Cadastre-se', d: 'Nome, documento (CPF ou DNI) e e-mail. Em português ou espanhol.' },
+    es: { t: 'Registrate', d: 'Nombre, documento (CPF o DNI) y e-mail. En portugués o español.' },
   },
   {
     no: '02',
-    pt: { t: 'Pague e ative', d: 'R$ 99/ano via Mercado Pago. Seu cartão digital fica ativo na hora, direto no celular.' },
-    es: { t: 'Pagá y activá', d: 'R$ 99/año vía Mercado Pago. Tu tarjeta digital queda activa al instante, en el celular.' },
+    pt: { t: 'Pague e ative', d: 'Pagamento seguro via PIX. Seu cartão digital fica ativo na hora, direto no celular.' },
+    es: { t: 'Pagá y activá', d: 'Pago seguro vía PIX. Tu tarjeta digital queda activa al instante, en el celular.' },
   },
   {
     no: '03',

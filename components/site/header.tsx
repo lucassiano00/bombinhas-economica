@@ -4,10 +4,12 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
 
+// Hotfix roteamento: Turistas/Moradores → seção de compra (#checkout);
+// Empresas → footer (#contato: contatos + parceiros). Scroll suave via CSS.
 const NAV = [
-  { label: 'TURISTAS',  href: '#turistas' },
-  { label: 'MORADORES', href: '#moradores' },
-  { label: 'EMPRESAS',  href: '#empresas' },
+  { label: 'TURISTAS',  href: '#checkout' },
+  { label: 'MORADORES', href: '#checkout' },
+  { label: 'EMPRESAS',  href: '#contato' },
   { label: 'CONTATO',   href: '#contato' },
 ]
 

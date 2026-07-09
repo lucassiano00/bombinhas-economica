@@ -30,8 +30,7 @@ describe('RegisterForm', () => {
     await userEvent.type(screen.getByLabelText(/e-?mail/i), 'a@b.com')
     // labelPassword: 'Senha (mínimo 8 caracteres)'
     await userEvent.type(screen.getByLabelText(/senha/i), 'secret123')
-    // labelPhone: 'Telefone / WhatsApp'
-    await userEvent.type(screen.getByLabelText(/telefone/i), '+5547999990000')
+    // hotfix: campo telefone removido da UI (backend recebe phone: '')
     // labelDocumentNumber: 'Número do documento'
     await userEvent.type(screen.getByLabelText(/número do documento/i), '12345678900')
     // submit button: s.submit = 'Criar meu cartão'

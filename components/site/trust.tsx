@@ -25,7 +25,8 @@ export function Trust({ locale }: { locale: Locale }) {
                 : 'Qualquer parceiro confirma seu cartão por CPF ou DNI — sem app, sem complicação. Você mostra, ele confere, o desconto sai.'}
             </p>
             <div className="mt-6 flex flex-wrap gap-2.5">
-              {['CPF', es ? 'DNI / Pasaporte' : 'DNI / Passaporte', es ? 'Estado activo' : 'Status ativo'].map(
+              {/* hotfix: sem Passaporte — verificação só por CPF ou DNI */}
+              {['CPF', 'DNI', es ? 'Estado activo' : 'Status ativo'].map(
                 (b) => (
                   <span
                     key={b}

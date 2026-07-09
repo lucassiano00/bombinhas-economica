@@ -2,12 +2,14 @@ import { CheckCircle2 } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
 import { Reveal } from './reveal'
 
-// Concrete proofs — each is stated as fact elsewhere on the page, not vague filler.
+// hotfix: feature list alinhada às regras novas — cartão 100% digital,
+// +4 dependentes, PIX (sem Mercado Pago), crédito 12 meses (sem "cancele").
 const PROOFS: { pt: string; es: string }[] = [
-  { pt: 'Ativação imediata — cartão na hora', es: 'Activación inmediata — tarjeta al instante' },
+  { pt: 'Ativação imediata, cartão digital na hora.', es: 'Activación inmediata, tarjeta digital al instante.' },
+  { pt: 'Para você e mais 4 dependentes', es: 'Para vos y 4 dependientes más' },
   { pt: 'Sem app: o parceiro verifica por CPF ou DNI', es: 'Sin app: el socio verifica por CPF o DNI' },
-  { pt: 'Pagamento seguro via Mercado Pago (Pix ou cartão)', es: 'Pago seguro vía Mercado Pago (Pix o tarjeta)' },
-  { pt: 'Cancele quando quiser, sem letra miúda', es: 'Cancela cuando quieras, sin letra chica' },
+  { pt: 'Pagamento seguro via PIX', es: 'Pago seguro vía PIX' },
+  { pt: 'Crédito válido por 12 meses', es: 'Crédito válido por 12 meses' },
 ]
 
 export function ValueBenefits({ locale }: { locale: Locale }) {
@@ -16,38 +18,27 @@ export function ValueBenefits({ locale }: { locale: Locale }) {
     <section className="bg-section py-20">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 lg:grid-cols-2">
         <div>
+          {/* hotfix: sem "Pague R$ 99" (precificação dinâmica) e sem sufixo temporal */}
           <h3 className="text-[1.85rem] font-extrabold leading-[1.1] text-navy sm:text-5xl">
             {es ? (
               <>
-                Pagá <span className="text-gold-deep">R$ 99</span>.<br />
-                Ahorrá <span className="text-gold-deep">+R$ 1.500</span>.
+                Más de <span className="text-gold-deep">R$ 1.500</span>
+                <br />
+                en ahorro.
               </>
             ) : (
               <>
-                Pague <span className="text-gold-deep">R$ 99</span>.<br />
-                Economize <span className="text-gold-deep">+R$ 1.500</span>.
+                Mais de <span className="text-gold-deep">R$ 1.500</span>
+                <br />
+                em economia.
               </>
             )}
           </h3>
-
-          {/* The math, made literal: pay this → get back that. Stacks on mobile. */}
-          <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4">
-            <div className="rounded-2xl border border-border bg-surface px-6 py-4 text-center shadow-sm">
-              <div className="text-xs font-bold uppercase tracking-wide text-muted">
-                {es ? 'Pagás' : 'Você paga'}
-              </div>
-              <div className="font-display text-3xl font-extrabold text-navy">
-                R$ 99<span className="text-base font-semibold text-muted">/{es ? 'año' : 'ano'}</span>
-              </div>
-            </div>
-            <span className="self-center rotate-90 text-2xl text-muted sm:rotate-0">→</span>
-            <div className="rounded-2xl border border-border bg-surface px-6 py-4 text-center shadow-sm">
-              <div className="text-xs font-bold uppercase tracking-wide text-muted">
-                {es ? 'Ahorrás' : 'Você economiza'}
-              </div>
-              <div className="font-display text-3xl font-extrabold text-green">+R$ 1.500</div>
-            </div>
-          </div>
+          <p className="mt-4 max-w-sm text-muted">
+            {es
+              ? 'Descuentos reales en los socios de Bombinhas, con tu tarjeta digital.'
+              : 'Descontos reais nos parceiros de Bombinhas, com seu cartão digital.'}
+          </p>
         </div>
 
         <Reveal as="ul" group className="grid gap-3.5">

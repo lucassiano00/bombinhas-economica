@@ -6,7 +6,11 @@ import { Card } from '@/components/ui/card'
 import { registerClient } from '@/lib/actions/register'
 import type { Locale } from '@/lib/i18n'
 
+// hotfix: cadastro enxuto — sem telefone e sem passaporte na UI (backend
+// segue aceitando 'passport' em registros legados). Regra: titular + 4 dependentes.
 type DependentInput = { fullName: string; documentType: 'cpf' | 'dni' | 'passport'; documentNumber: string }
+
+const MAX_DEPENDENTS = 4
 
 interface RegisterFormProps {
   locale?: Locale
@@ -26,7 +30,7 @@ const STRINGS = {
     optionDni: 'DNI (estrangeiros hispânicos)',
     optionPassport: 'Passaporte',
     labelDocumentNumber: 'Número do documento',
-    labelDependents: (count: number) => `Dependentes (${count}/5)`,
+    labelDependents: (count: number) => `Dependentes (${count}/4)`,
     labelDependentName: (n: number) => `Nome do dependente ${n}`,
     labelDependentDoc: 'Número do documento',
     removeDependent: 'Remover dependente',
@@ -51,7 +55,7 @@ const STRINGS = {
     optionDni: 'DNI (extranjeros hispanos)',
     optionPassport: 'Pasaporte',
     labelDocumentNumber: 'Número de documento',
-    labelDependents: (count: number) => `Dependientes (${count}/5)`,
+    labelDependents: (count: number) => `Dependientes (${count}/4)`,
     labelDependentName: (n: number) => `Nombre del dependiente ${n}`,
     labelDependentDoc: 'Número de documento',
     removeDependent: 'Eliminar dependiente',
@@ -81,14 +85,15 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
     setError('')
     const form = new FormData(e.currentTarget)
     try {
+      const documentType = form.get('documentType') as 'cpf' | 'dni'
       const result = await registerClient({
         locale,
         email: form.get('email') as string,
         password: form.get('password') as string,
         fullName: form.get('fullName') as string,
-        phone: form.get('phone') as string,
-        clientType: form.get('clientType') as 'brazilian' | 'foreigner',
-        documentType: form.get('documentType') as 'cpf' | 'dni' | 'passport',
+        phone: '', // hotfix: campo removido da UI; coluna aceita vazio
+        clientType: documentType === 'cpf' ? 'brazilian' : 'foreigner', // derivado do documento
+        documentType,
         documentNumber: form.get('documentNumber') as string,
         dependentsList,
       })
@@ -105,7 +110,7 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
   }
 
   function addDependent() {
-    if (dependentsList.length < 5) {
+    if (dependentsList.length < MAX_DEPENDENTS) {
       setDependentsList([...dependentsList, { fullName: '', documentType: 'cpf', documentNumber: '' }])
     }
   }
@@ -147,18 +152,9 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
           disabled={loading}
         />
         <Input id="fullName" name="fullName" label={s.labelFullName} required disabled={loading} />
-        <Input id="phone" name="phone" type="tel" label={s.labelPhone} required disabled={loading} />
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="clientType" className="text-sm font-semibold text-ink">
-            {s.labelClientType}
-          </label>
-          <select id="clientType" name="clientType" disabled={loading} className={SELECT_CLASS}>
-            <option value="brazilian">{s.optionBrazilian}</option>
-            <option value="foreigner">{s.optionForeigner}</option>
-          </select>
-        </div>
-
+        {/* hotfix: telefone e "tipo de cliente" removidos — cliente é derivado
+            do documento; sem opção Passaporte (somente CPF ou DNI) */}
         <div className="flex flex-col gap-1">
           <label htmlFor="documentType" className="text-sm font-semibold text-ink">
             {s.labelDocumentType}
@@ -166,7 +162,6 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
           <select id="documentType" name="documentType" disabled={loading} className={SELECT_CLASS}>
             <option value="cpf">{s.optionCpf}</option>
             <option value="dni">{s.optionDni}</option>
-            <option value="passport">{s.optionPassport}</option>
           </select>
         </div>
 
@@ -185,12 +180,11 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
                 />
                 <select
                   value={dep.documentType}
-                  onChange={(e) => updateDependent(i, 'documentType', e.target.value as 'cpf' | 'dni' | 'passport')}
+                  onChange={(e) => updateDependent(i, 'documentType', e.target.value as 'cpf' | 'dni')}
                   className={SELECT_CLASS}
                 >
                   <option value="cpf">CPF</option>
                   <option value="dni">DNI</option>
-                  <option value="passport">{s.optionPassport}</option>
                 </select>
                 <Input
                   label={s.labelDependentDoc}
@@ -206,7 +200,7 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
           </div>
         )}
 
-        {dependentsList.length < 5 && (
+        {dependentsList.length < MAX_DEPENDENTS && (
           <Button type="button" variant="secondary" onClick={addDependent} className="text-sm">
             {s.addDependent}
           </Button>

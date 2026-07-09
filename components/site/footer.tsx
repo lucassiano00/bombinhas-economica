@@ -14,10 +14,11 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <h4 className="text-2xl font-black text-white sm:text-3xl">
             {es ? '¿Listo para ahorrar?' : 'Pronto para economizar?'}
           </h4>
+          {/* hotfix: sem preço fixo e sem "cancele quando quiser" → crédito 12 meses */}
           <p className="mt-2 text-sm text-white/70">
             {es
-              ? 'R$ 99,00 por año · Activación inmediata · Cancela cuando quieras'
-              : 'R$ 99,00 por ano · Ativação imediata · Cancele quando quiser'}
+              ? 'Activación inmediata · Tarjeta digital · Crédito válido por 12 meses'
+              : 'Ativação imediata · Cartão digital · Crédito válido por 12 meses'}
           </p>
           <Link
             href={`/${locale}/cadastro`}

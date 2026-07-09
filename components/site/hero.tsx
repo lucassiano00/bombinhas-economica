@@ -49,10 +49,11 @@ export function Hero({ locale }: { locale: Locale }) {
             </h2>
 
             {/* Sub-copy with price anchor — converts visitors before they scroll */}
+            {/* hotfix Node 1: sem preço hardcoded (precificação dinâmica) */}
             <p className="hero-in mt-5 max-w-sm text-base leading-relaxed text-white/90" style={{ '--i': 2 } as React.CSSProperties}>
               {es
-                ? 'Acceso a descuentos exclusivos en mercados, farmacias, restaurantes y más — por solo R$ 99,00/año.'
-                : 'Acesso a descontos exclusivos em mercados, farmácias, restaurantes e mais — por apenas R$ 99,00/ano.'}
+                ? 'Accede a descuentos exclusivos en mercados, farmacias, restaurantes y mucho más.'
+                : 'Acesse a descontos exclusivos em mercados, farmácias, restaurantes e muito mais.'}
             </p>
 
             <div className="hero-in mt-7 flex flex-wrap items-center gap-3" style={{ '--i': 3 } as React.CSSProperties}>
@@ -64,7 +65,7 @@ export function Hero({ locale }: { locale: Locale }) {
                 {es ? 'QUIERO AHORRAR AHORA' : 'QUERO ECONOMIZAR AGORA'}
               </Link>
               <a
-                href="#turistas"
+                href="#checkout"
                 className="press inline-flex items-center rounded-full border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-bold text-white hover:bg-white/20"
               >
                 {es ? 'Cómo funciona' : 'Ver como funciona'}
@@ -73,9 +74,10 @@ export function Hero({ locale }: { locale: Locale }) {
 
             {/* Trust stats — all real claims (no invented numbers) */}
             <div className="hero-in mt-9 flex flex-wrap gap-x-6 gap-y-4" style={{ '--i': 4 } as React.CSSProperties}>
+              {/* hotfix Node 2: trim do sufixo temporal ("por ano") */}
               <div>
                 <div className="font-display text-2xl font-extrabold leading-none">+R$ 1.500</div>
-                <div className="mt-1 text-xs text-white/70">{es ? 'ahorro por año' : 'economia por ano'}</div>
+                <div className="mt-1 text-xs text-white/70">{es ? 'en ahorro' : 'em economia'}</div>
               </div>
               <div>
                 <div className="font-display text-2xl font-extrabold leading-none">24h</div>

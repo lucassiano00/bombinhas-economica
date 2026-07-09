@@ -28,8 +28,10 @@ describe('Hero', () => {
     expect(screen.getByRole('link', { name: /quiero ahorrar ahora/i })).toBeInTheDocument()
   })
 
-  it('renders the price in sub-copy', () => {
+  // hotfix: preço saiu do sub-copy (precificação dinâmica)
+  it('renders the sub-copy without a hardcoded price', () => {
     render(<Hero locale="pt" />)
-    expect(screen.getByText(/R\$ 99,00\/ano/)).toBeInTheDocument()
+    expect(screen.getByText(/Acesse a descontos exclusivos/)).toBeInTheDocument()
+    expect(screen.queryByText(/R\$ 99/)).not.toBeInTheDocument()
   })
 })

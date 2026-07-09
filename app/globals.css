@@ -57,6 +57,16 @@
   --font-display: var(--font-display);
 }
 
+/* Âncoras da navbar rolam suave (hotfix roteamento interno) */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background: var(--surface);
   color: var(--ink);
@@ -96,7 +106,8 @@ h6 {
   }
 }
 .marquee-track {
-  animation: marquee 46s linear infinite;
+  /* hotfix: rolagem mais rápida a pedido do cliente (46s → 26s) */
+  animation: marquee 26s linear infinite;
 }
 /* Pause on mouse hover (desktop) and on touch-hold (mobile :active) — so the
    reader can actually stop a card to read it on a phone, not just with a mouse. */

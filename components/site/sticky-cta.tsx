@@ -50,7 +50,8 @@ export function StickyCta({ locale }: { locale: Locale }) {
         className="press flex items-center justify-center gap-2.5 rounded-full bg-gold py-3.5 text-sm font-extrabold tracking-wide text-navy shadow-[0_10px_30px_-8px_rgba(8,26,61,.5)] hover:bg-gold-deep"
       >
         <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
-        {es ? 'QUIERO AHORRAR — R$ 99/AÑO' : 'QUERO ECONOMIZAR — R$ 99/ANO'}
+        {/* hotfix: sem preço hardcoded (precificação dinâmica) */}
+        {es ? 'QUIERO AHORRAR AHORA' : 'QUERO ECONOMIZAR AGORA'}
       </Link>
     </div>
   )

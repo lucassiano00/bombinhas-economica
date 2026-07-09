@@ -6,7 +6,7 @@ import {
   IceCreamCone,
   Coffee,
   Croissant,
-  Umbrella,
+  Smile,
   TreePalm,
   Scissors,
 } from 'lucide-react'
@@ -30,7 +30,8 @@ const CATS: Cat[] = [
   { icon: IceCreamCone, pt: 'Sorveteria',        es: 'Heladería' },
   { icon: Coffee,       pt: 'Cafeteria',         es: 'Cafetería' },
   { icon: Croissant,    pt: 'Padaria',           es: 'Panadería' },
-  { icon: Umbrella,     pt: 'Lazer',             es: 'Ocio' },
+  // hotfix: fallback sem logo = smiley (era guarda-chuva)
+  { icon: Smile,        pt: 'Lazer',             es: 'Ocio' },
   { icon: TreePalm,     pt: 'Artigos de praia',  es: 'Artículos de playa' },
   { icon: Scissors,     pt: 'Beleza',            es: 'Belleza' },
 ]

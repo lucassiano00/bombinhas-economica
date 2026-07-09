@@ -17,7 +17,8 @@ function NeedItem({ text, hint }: { text: string; hint?: string }) {
 export function Registration({ locale }: { locale: Locale }) {
   const es = locale === 'es'
   return (
-    <section id="turistas" className="bg-section py-16">
+    // hotfix: id de compra — alvo dos links Turistas/Moradores da navbar
+    <section id="checkout" className="scroll-mt-4 bg-section py-16">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mb-8 text-center">
           <h3 className="text-3xl font-extrabold text-navy sm:text-4xl">
@@ -42,22 +43,21 @@ export function Registration({ locale }: { locale: Locale }) {
             <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-muted">
               {es ? 'Lo que vas a necesitar:' : 'O que você vai precisar:'}
             </p>
+            {/* hotfix: apenas 3 dados (Nome, Documento, E-mail); sem Passaporte */}
             <ul className="space-y-3.5">
               <NeedItem text={es ? 'Nombre completo' : 'Nome completo'} />
               <NeedItem
-                text={es ? 'CPF o DNI / Pasaporte' : 'CPF ou DNI / Passaporte'}
+                text={es ? 'CPF o DNI' : 'CPF ou DNI'}
                 hint={es ? 'según tu país' : 'conforme seu país'}
               />
-              <NeedItem text={es ? 'Teléfono (WhatsApp)' : 'Telefone (WhatsApp)'} />
               <NeedItem text="E-mail" />
             </ul>
 
-            <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-border pt-4">
-              <span className="text-xs text-muted">{es ? 'Pago via' : 'Pagamento via'}</span>
-              <span className="rounded border border-[#009ee3] px-2 py-0.5 text-[0.65rem] font-black text-[#009ee3]">
-                Mercado Pago
+            {/* hotfix: sem menção/logo Mercado Pago — copy estrita */}
+            <div className="mt-5 border-t border-border pt-4">
+              <span className="text-xs font-semibold text-muted">
+                {es ? 'Pago seguro vía PIX' : 'Pagamento seguro via PIX'}
               </span>
-              <span className="text-xs text-muted">{es ? '(tarjeta o Pix)' : '(cartão ou Pix)'}</span>
             </div>
 
             <Link

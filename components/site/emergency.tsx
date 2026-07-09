@@ -3,6 +3,10 @@ import type { LucideIcon } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
 import { Reveal } from './reveal'
 
+// hotfix: fluxo nativo ainda não existe — todos os botões abrem o WhatsApp.
+// ponytail: número via env, trocar quando o fluxo nativo for construído.
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '5547900000000'
+
 const ITEMS: { icon: LucideIcon; pt: string; es: string }[] = [
   { icon: Truck,    pt: 'Reboque',            es: 'Grúa' },
   { icon: Scale,    pt: 'Assessoria Jurídica', es: 'Asesoría Jurídica' },
@@ -30,14 +34,18 @@ export function Emergency({ locale }: { locale: Locale }) {
           <Reveal group className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {ITEMS.map((item) => {
               const Icon = item.icon
+              const label = es ? item.es : item.pt
               return (
-                <div
+                <a
                   key={item.pt}
+                  href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(label)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="lift flex items-center justify-center gap-3 rounded-xl bg-surface px-4 py-3.5 ring-1 ring-border"
                 >
                   <Icon className="h-6 w-6 shrink-0 text-navy" strokeWidth={1.75} />
-                  <span className="text-sm font-semibold text-ink">{es ? item.es : item.pt}</span>
-                </div>
+                  <span className="text-sm font-semibold text-ink">{label}</span>
+                </a>
               )
             })}
           </Reveal>

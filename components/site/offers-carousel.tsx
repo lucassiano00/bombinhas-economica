@@ -32,11 +32,13 @@ export function OffersCarousel({ locale }: { locale: Locale }) {
         <h3 className="max-w-[16ch] text-3xl font-extrabold text-navy sm:text-4xl">
           {es ? 'Descuentos en tus lugares favoritos' : 'Descontos nos seus lugares favoritos'}
         </h3>
-        <p className="hidden max-w-[30ch] text-sm text-muted sm:block">
-          {es
-            ? 'De parques a restaurantes — pasa el mouse para pausar.'
-            : 'De parques a restaurantes — passe o mouse para pausar.'}
-        </p>
+        {/* hotfix: CTA "Clique aqui" → rola até a grade de parceiros (#empresas) */}
+        <a
+          href="#empresas"
+          className="press inline-flex shrink-0 items-center rounded-full bg-gold px-5 py-2.5 text-xs font-extrabold tracking-wide text-navy hover:bg-gold-deep"
+        >
+          {es ? 'Hacé clic aquí' : 'Clique aqui'}
+        </a>
       </div>
 
       <div className="marquee-pause">

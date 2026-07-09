@@ -36,9 +36,10 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
 
             {/* Body */}
             <p className="mt-4 leading-relaxed text-ink">
+              {/* hotfix: sem menção ao gateway */}
               {es
-                ? 'Tu pago está siendo procesado por Mercado Pago. Te avisaremos por email cuando se apruebe y tu tarjeta se active automáticamente.'
-                : 'Seu pagamento está sendo processado pelo Mercado Pago. Avisaremos por email quando for aprovado e o cartão ativar automaticamente.'}
+                ? 'Tu pago está siendo procesado. Te avisaremos por email cuando se apruebe y tu tarjeta se active automáticamente.'
+                : 'Seu pagamento está sendo processado. Avisaremos por email quando for aprovado e o cartão ativar automaticamente.'}
             </p>
 
             {/* What to expect — light section tint */}
@@ -51,8 +52,8 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
                   <span className="mt-0.5 font-bold text-warning-deep">1.</span>
                   <span>
                     {es
-                      ? 'Mercado Pago confirma el pago (puede tardar hasta 2 días hábiles).'
-                      : 'Mercado Pago confirma o pagamento (pode levar até 2 dias úteis).'}
+                      ? 'El pago se confirma (puede tardar hasta 2 días hábiles).'
+                      : 'O pagamento é confirmado (pode levar até 2 dias úteis).'}
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
