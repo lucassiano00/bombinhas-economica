@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
 import { CardReel } from './card-reel'
 import { CardGlimpse } from './card-glimpse'
+import { InstallButton } from './install-button'
 
 // Aerial coast — green hills meeting a turquoise bay, the iconic litoral-SC / Bombinhas look.
 const HERO_IMG =
@@ -70,6 +71,8 @@ export function Hero({ locale }: { locale: Locale }) {
               >
                 {es ? 'Cómo funciona' : 'Ver como funciona'}
               </a>
+              {/* PWA: prompt nativo (Android) / instrução (iOS); some se já instalado */}
+              <InstallButton es={es} />
             </div>
 
             {/* Trust stats — all real claims (no invented numbers) */}
