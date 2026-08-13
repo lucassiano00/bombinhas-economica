@@ -35,16 +35,20 @@ describe('registerClient', () => {
       password: 'secret123',
       fullName: 'Ana',
       phone: '+5547999990000',
+      country: 'AR',
       clientType: 'foreigner',
       documentType: 'passport',
       documentNumber: 'X123',
       locale: 'es',
+      plan: 'individual',
       dependentsList: [],
     })
 
     expect(res).toEqual({ success: true, initPoint: 'https://mp/checkout' })
+    // Valor literal de propósito: derivar de PLANS deixaria o teste tautológico
+    // e incapaz de pegar uma tabela de preços errada.
     expect(insertValues).toHaveBeenCalledWith(
-      expect.objectContaining({ amount: 9900, status: 'pending' })
+      expect.objectContaining({ amount: 4990, status: 'pending' })
     )
     expect(createPref).toHaveBeenCalledWith(
       expect.objectContaining({ externalReference: 'pay_1', payerEmail: 'a@b.com', locale: 'es' })
@@ -61,11 +65,15 @@ describe('registerClient', () => {
       password: 'secret123',
       fullName: 'Ana',
       phone: '+5547999990000',
+      country: 'AR',
       clientType: 'foreigner',
       documentType: 'passport',
       documentNumber: 'X123',
       locale: 'es',
-      dependentsList: [{ fullName: 'Child', documentType: 'passport', documentNumber: 'Y999' }],
+      plan: 'casal',
+      dependentsList: [
+        { fullName: 'Child', phone: '+5547988887777', country: 'AR', documentType: 'passport', documentNumber: 'Y999' },
+      ],
     })
     // db.insert called 4 times: users, clients, dependents, payments
     expect(insert).toHaveBeenCalledTimes(4)

@@ -1,8 +1,6 @@
 // lib/mercadopago.ts
 import { MercadoPagoConfig, Preference, Payment } from 'mercadopago'
-
-export const CARD_PRICE_BRL = 99.0
-export const CARD_PRICE_CENTS = 9900
+import { planFor, type PlanId } from '@/lib/plans'
 
 function client() {
   return new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN! })
@@ -17,6 +15,7 @@ export type CreatePreferenceArgs = {
   payerEmail: string
   payerName: string
   locale: 'pt' | 'es'
+  plan: PlanId
 }
 
 export async function createCheckoutPreference(
@@ -24,14 +23,15 @@ export async function createCheckoutPreference(
 ): Promise<{ preferenceId: string; initPoint: string }> {
   const preference = new Preference(client())
   const base = appUrl()
+  const plan = planFor(args.plan)
   const result = await preference.create({
     body: {
       items: [
         {
-          id: 'cartao-anual',
-          title: 'Cartão Bombinhas+ Econômica (1 ano)',
+          id: `cartao-anual-${args.plan}`,
+          title: `Cartão Bombinhas+ Econômica — plano ${plan.pt} (1 ano)`,
           quantity: 1,
-          unit_price: CARD_PRICE_BRL,
+          unit_price: plan.priceBrl,
           currency_id: 'BRL',
         },
       ],
@@ -46,7 +46,12 @@ export async function createCheckoutPreference(
       notification_url: `${base}/api/webhooks/mercadopago`,
     },
   })
-  return { preferenceId: String(result.id), initPoint: String(result.init_point) }
+  // Sem init_point não há checkout — e String(undefined) === 'undefined' passaria
+  // como link válido, deixando o cadastro "concluir" sem pagamento.
+  if (!result.init_point) {
+    throw new Error('Mercado Pago did not return an init_point for this preference')
+  }
+  return { preferenceId: String(result.id), initPoint: result.init_point }
 }
 
 export async function getMercadoPagoPayment(

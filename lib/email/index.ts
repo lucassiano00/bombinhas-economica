@@ -1,4 +1,5 @@
 import { Resend } from 'resend'
+import { PLANS, formatPrice, type PlanId } from '@/lib/plans'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const FROM = 'Bombinhas+ Econômica <noreply@bombinhaseconomica.com.br>'
@@ -11,17 +12,22 @@ export async function sendRegistrationConfirmed({
   to,
   name,
   locale,
+  plan,
 }: {
   to: string
   name: string
   locale: 'pt' | 'es'
+  plan: PlanId
 }) {
+  // O valor vem do plano — hardcodar preço aqui já mandou "R$ 99,00" pra quem
+  // ia pagar outro valor.
   void locale
+  const price = formatPrice(plan)
   await resend.emails.send({
     from: FROM,
     to,
     subject: 'Cadastro recebido — Bombinhas+ Econômica',
-    text: `Olá, ${name}!\n\nRecebemos seu cadastro no Bombinhas+ Econômica. Para ativar seu cartão, conclua o pagamento de R$ 99,00 (anual) no checkout do Mercado Pago.\n\nAssim que o pagamento for aprovado, seu cartão digital é ativado automaticamente e você recebe um aviso por email.\n\nEquipe Bombinhas+ Econômica`,
+    text: `Olá, ${name}!\n\nRecebemos seu cadastro no Bombinhas+ Econômica. Para ativar seu cartão, conclua o pagamento de ${price} (plano ${PLANS[plan].pt}, anual) no checkout do Mercado Pago.\n\nAssim que o pagamento for aprovado, seu cartão digital é ativado automaticamente e você recebe um aviso por email.\n\nEquipe Bombinhas+ Econômica`,
   })
 }
 

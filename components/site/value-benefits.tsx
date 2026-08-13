@@ -6,10 +6,19 @@ import { Reveal } from './reveal'
 // +4 dependentes, PIX (sem Mercado Pago), crédito 12 meses (sem "cancele").
 const PROOFS: { pt: string; es: string }[] = [
   { pt: 'Ativação imediata, cartão digital na hora.', es: 'Activación inmediata, tarjeta digital al instante.' },
-  { pt: 'Para você e mais 4 dependentes', es: 'Para vos y 4 dependientes más' },
+  // Cliente (12/08) trocou "mais 4 dependentes" pelos três planos.
+  {
+    pt: 'Plano individual, casal e para sua família',
+    es: 'Plan individual, pareja y para tu familia',
+  },
   { pt: 'Sem app: o parceiro verifica por CPF ou DNI', es: 'Sin app: el socio verifica por CPF o DNI' },
   { pt: 'Pagamento seguro via PIX', es: 'Pago seguro vía PIX' },
   { pt: 'Crédito válido por 12 meses', es: 'Crédito válido por 12 meses' },
+  // Cliente (05/08): incluir a telemedicina na lista.
+  {
+    pt: 'Se precisar, telemedicina 24 horas pelo celular',
+    es: 'Si lo necesitás, telemedicina 24 horas por el celular',
+  },
 ]
 
 export function ValueBenefits({ locale }: { locale: Locale }) {

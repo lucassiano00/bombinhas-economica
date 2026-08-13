@@ -57,9 +57,12 @@
   --font-display: var(--font-display);
 }
 
-/* Âncoras da navbar rolam suave (hotfix roteamento interno) */
+/* Âncoras da navbar rolam suave (hotfix roteamento interno).
+   scroll-padding-top compensa o header sticky — sem isso a âncora
+   (#checkout, #contato) para atrás da barra. */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -71,7 +74,9 @@ body {
   background: var(--surface);
   color: var(--ink);
   font-family: var(--font-body), system-ui, sans-serif;
-  overflow-x: hidden;
+  /* clip, não hidden: `hidden` transforma o body em scroll container e quebra
+     o `position: sticky` do header. `clip` corta igual sem esse efeito. */
+  overflow-x: clip;
 }
 
 /* Focus ring da marca — anel dourado em qualquer superfície; sobre elementos
@@ -96,33 +101,18 @@ h6 {
   font-family: var(--font-display), system-ui, sans-serif;
 }
 
-/* Partner offers marquee — continuous scroll, pause on hover, motion-safe */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+/* Partner offers strip — rolagem nativa: o dedo empurra, o auto-scroll continua
+   de onde parou (a velocidade fica no componente). Antes era @keyframes com
+   transform, que não dá pra arrastar; e no prefers-reduced-motion a animação
+   sumia e os últimos cards ficavam inalcançáveis. */
+.swipe-x {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
-.marquee-track {
-  /* hotfix: rolagem mais rápida a pedido do cliente (46s → 26s) */
-  animation: marquee 26s linear infinite;
-}
-/* Pause on mouse hover (desktop) and on touch-hold (mobile :active) — so the
-   reader can actually stop a card to read it on a phone, not just with a mouse. */
-@media (hover: hover) {
-  .marquee-pause:hover .marquee-track {
-    animation-play-state: paused;
-  }
-}
-.marquee-pause:active .marquee-track {
-  animation-play-state: paused;
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
+.swipe-x::-webkit-scrollbar {
+  display: none;
 }
 
 /* ============================================================

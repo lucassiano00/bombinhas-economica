@@ -43,7 +43,7 @@ export function Registration({ locale }: { locale: Locale }) {
             <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-muted">
               {es ? 'Lo que vas a necesitar:' : 'O que você vai precisar:'}
             </p>
-            {/* hotfix: apenas 3 dados (Nome, Documento, E-mail); sem Passaporte */}
+            {/* Cliente (05/08): telefone e país entram na lista, junto do form. */}
             <ul className="space-y-3.5">
               <NeedItem text={es ? 'Nombre completo' : 'Nome completo'} />
               <NeedItem
@@ -51,6 +51,8 @@ export function Registration({ locale }: { locale: Locale }) {
                 hint={es ? 'según tu país' : 'conforme seu país'}
               />
               <NeedItem text="E-mail" />
+              <NeedItem text={es ? 'Teléfono / WhatsApp' : 'Telefone / WhatsApp'} />
+              <NeedItem text="País" />
             </ul>
 
             {/* hotfix: sem menção/logo Mercado Pago — copy estrita */}

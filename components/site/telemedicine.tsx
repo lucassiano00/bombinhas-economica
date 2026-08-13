@@ -30,22 +30,25 @@ export function Telemedicine({ locale }: { locale: Locale }) {
               {es ? (
                 <>
                   Atención médica online 24 horas al día, donde estés — consultas por solo{' '}
-                  <span className="font-display text-xl font-extrabold text-gold">R$ 79,90</span>. Ideal para
+                  <span className="font-display text-xl font-extrabold text-gold">R$ 99,90</span>. Ideal para
                   quien viaja lejos de casa.
                 </>
               ) : (
                 <>
                   Atendimento médico on-line 24 horas por dia, onde você estiver — consultas por apenas{' '}
-                  <span className="font-display text-xl font-extrabold text-gold">R$ 79,90</span>. Ideal para
+                  <span className="font-display text-xl font-extrabold text-gold">R$ 99,90</span>. Ideal para
                   quem está viajando longe de casa.
                 </>
               )}
             </p>
+            {/* Cliente (05/08): "Saiba mais" vira "Consultar" e aponta pro parceiro. */}
             <a
-              href="#contato"
+              href="https://telemedicina.talkdocbrasil.com.br"
+              target="_blank"
+              rel="noopener noreferrer"
               className="press mt-6 inline-flex rounded-full bg-gold px-7 py-3.5 text-sm font-extrabold tracking-wide text-navy hover:bg-gold-deep"
             >
-              {es ? 'Saber más →' : 'Saiba mais →'}
+              Consultar →
             </a>
           </div>
         </div>

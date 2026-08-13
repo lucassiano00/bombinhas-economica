@@ -12,6 +12,7 @@ export const roleEnum = pgEnum('role', ['admin', 'partner', 'client'])
 export const documentTypeEnum = pgEnum('document_type', ['cpf', 'dni', 'passport'])
 export const clientTypeEnum = pgEnum('client_type', ['brazilian', 'foreigner'])
 export const clientStatusEnum = pgEnum('client_status', ['pending', 'active', 'inactive'])
+export const planEnum = pgEnum('plan', ['individual', 'casal', 'familia'])
 export const paymentStatusEnum = pgEnum('payment_status', [
   'pending',
   'approved',
@@ -33,6 +34,12 @@ export const clients = pgTable('clients', {
   fullName: text('full_name').notNull(),
   phone: text('phone').notNull(),
   clientType: clientTypeEnum('client_type').notNull(),
+  // Default 'familia': as linhas anteriores foram vendidas no preço único de
+  // R$ 99 com 4 dependentes, que é exatamente o plano família.
+  plan: planEnum('plan').notNull().default('familia'),
+  // ISO 3166-1 alpha-2. Default BR só para as linhas que já existiam antes do
+  // campo entrar no cadastro (cliente pediu país em 05/08).
+  country: text('country').notNull().default('BR'),
   documentType: documentTypeEnum('document_type').notNull(),
   documentNumber: text('document_number').notNull().unique(),
   locale: text('locale').notNull().default('pt'),
@@ -45,6 +52,9 @@ export const dependents = pgTable('dependents', {
   id: uuid('id').primaryKey().defaultRandom(),
   clientId: uuid('client_id').notNull().references(() => clients.id),
   fullName: text('full_name').notNull(),
+  // Cliente (05/08): "os dependentes também têm que ter esses dados".
+  phone: text('phone').notNull().default(''),
+  country: text('country').notNull().default('BR'),
   documentType: documentTypeEnum('document_type').notNull(),
   documentNumber: text('document_number').notNull(),
 })

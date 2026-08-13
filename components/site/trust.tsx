@@ -42,14 +42,12 @@ export function Trust({ locale }: { locale: Locale }) {
 
           {/* Audience — dark navy card */}
           <div className="rounded-2xl bg-gradient-to-b from-navy to-navy-900 p-9 text-white">
-            <h4 className="text-2xl font-extrabold">
-              {es ? 'Hecho para quien está de paso' : 'Feito para quem está de passagem'}
-            </h4>
-            <p className="mt-3 text-white/75">
+            {/* Cliente (05/08): tirar o parágrafo do meio e deixar só esta frase + os números dourados. */}
+            <h4 className="text-2xl font-extrabold leading-tight">
               {es
-                ? 'Turista brasileño, argentino o residente — la experiencia en español es tan completa como en portugués. Pago seguro y empresa local con CNPJ a la vista.'
-                : 'Turista brasileiro, argentino ou morador — a jornada em espanhol é tão completa quanto em português. Pagamento seguro e empresa local com CNPJ à vista.'}
-            </p>
+                ? 'HECHO PARA QUE AHORRES Y TENGAS UNAS VACACIONES EXCELENTES'
+                : 'FEITO PARA VOCÊ ECONOMIZAR E TER ÓTIMAS FÉRIAS'}
+            </h4>
             <div className="mt-7 flex flex-wrap gap-x-7 gap-y-5">
               <div>
                 <div className="font-display text-2xl font-extrabold text-gold sm:text-3xl">WCAG AA</div>

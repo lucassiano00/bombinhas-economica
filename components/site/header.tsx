@@ -17,7 +17,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="relative z-40 bg-navy text-white">
+    <header className="sticky top-0 z-40 bg-navy text-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
         {/* Logo */}
         <Link href={`/${locale}`} className="flex flex-col leading-none">

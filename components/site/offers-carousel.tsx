@@ -1,4 +1,12 @@
+'use client'
+import { useEffect, useRef } from 'react'
 import type { Locale } from '@/lib/i18n'
+
+// Mesma velocidade da marquee antiga (26s p/ percorrer uma cópia da lista).
+// ponytail: piso prático ~40px/s — abaixo disso o incremento por frame cai de
+// meio pixel e o scrollLeft arredonda pra zero em tela DPR 1, travando a esteira.
+const SPEED = 59 // px/s
+const HOLD_MS = 1500 // pausa depois que o dedo/scroll encosta
 
 // Verified coastal / partner stock (all resolve; swap for real partner photos when available).
 const IMG = {
@@ -23,8 +31,44 @@ const OFFERS: Offer[] = [
 export function OffersCarousel({ locale }: { locale: Locale }) {
   const es = locale === 'es'
   const t = (o: Offer) => (es ? o.es : o.pt)
-  // Duplicate the set so the marquee loops seamlessly; the copy is hidden from a11y.
+  // Duplicate the set so the loop is seamless; the copy is hidden from a11y.
   const loop = [...OFFERS, ...OFFERS]
+
+  const ref = useRef<HTMLUListElement>(null)
+  const stop = useRef(false) // mouse em cima ou foco no teclado
+  const holdUntil = useRef(0) // dedo/roda acabou de mexer
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
+    // Onde a segunda cópia começa = ponto exato de wrap. Não uso scrollWidth/2
+    // porque ele inclui o padding do container e desalinharia alguns px por volta.
+    const lapWidth = () => {
+      const first = el.children[0] as HTMLElement | undefined
+      const clone = el.children[OFFERS.length] as HTMLElement | undefined
+      return first && clone ? clone.offsetLeft - first.offsetLeft : 0
+    }
+    let lap = lapWidth()
+    let last = performance.now()
+    let raf = requestAnimationFrame(function tick(now) {
+      const dt = Math.min((now - last) / 1000, 0.05) // clamp: aba volta do background
+      last = now
+      if (!lap) lap = lapWidth() // imagens ainda carregando na 1ª frame
+      if (!reduce.matches && !stop.current && now > holdUntil.current) {
+        el.scrollLeft += SPEED * dt
+      }
+      if (lap && el.scrollLeft >= lap) el.scrollLeft -= lap
+      raf = requestAnimationFrame(tick)
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  // ponytail: sem wrap pra trás. Quem arrasta até o começo encosta na borda e o
+  // auto-scroll traz de volta em 1,5s — não vale o estado extra pra evitar isso.
+  const hold = () => {
+    holdUntil.current = performance.now() + HOLD_MS
+  }
 
   return (
     <section className="overflow-hidden bg-surface py-20">
@@ -41,8 +85,29 @@ export function OffersCarousel({ locale }: { locale: Locale }) {
         </a>
       </div>
 
-      <div className="marquee-pause">
-        <ul className="marquee-track flex w-max gap-5 px-4">
+      <ul
+        ref={ref}
+        className="swipe-x flex w-full gap-5 px-4"
+        tabIndex={0}
+        role="region"
+        aria-label={es ? 'Descuentos de socios' : 'Descontos de parceiros'}
+        onPointerEnter={(e) => {
+          if (e.pointerType === 'mouse') stop.current = true
+        }}
+        onPointerLeave={() => {
+          stop.current = false
+        }}
+        onFocus={() => {
+          stop.current = true
+        }}
+        onBlur={() => {
+          stop.current = false
+        }}
+        onPointerDown={hold}
+        onTouchStart={hold}
+        onWheel={hold}
+        onKeyDown={hold}
+      >
           {loop.map((o, i) => {
             const c = t(o)
             return (
@@ -72,8 +137,7 @@ export function OffersCarousel({ locale }: { locale: Locale }) {
               </li>
             )
           })}
-        </ul>
-      </div>
+      </ul>
     </section>
   )
 }
