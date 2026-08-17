@@ -5,7 +5,12 @@ import { Reveal } from './reveal'
 
 // hotfix: fluxo nativo ainda não existe — todos os botões abrem o WhatsApp.
 // ponytail: número via env, trocar quando o fluxo nativo for construído.
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '5547900000000'
+//
+// Sem NEXT_PUBLIC_WHATSAPP_NUMBER definido NÃO se inventa número: o fallback
+// anterior ('5547900000000') publicava um telefone falso numa seção que promete
+// emergência 24h — alguém precisando de reboque clicaria e não falaria com
+// ninguém. Sem o número, os itens viram tiles informativos, não links mortos.
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || ''
 
 const ITEMS: { icon: LucideIcon; pt: string; es: string }[] = [
   { icon: Truck,    pt: 'Reboque',            es: 'Grúa' },
@@ -35,20 +40,39 @@ export function Emergency({ locale }: { locale: Locale }) {
             {ITEMS.map((item) => {
               const Icon = item.icon
               const label = es ? item.es : item.pt
-              return (
+              const conteudo = (
+                <>
+                  <Icon className="h-6 w-6 shrink-0 text-navy" strokeWidth={1.75} />
+                  <span className="text-sm font-semibold text-ink">{label}</span>
+                </>
+              )
+              const classe =
+                'flex items-center justify-center gap-3 rounded-xl bg-surface px-4 py-3.5 ring-1 ring-border'
+              return WHATSAPP ? (
                 <a
                   key={item.pt}
                   href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(label)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="lift flex items-center justify-center gap-3 rounded-xl bg-surface px-4 py-3.5 ring-1 ring-border"
+                  className={`lift ${classe}`}
                 >
-                  <Icon className="h-6 w-6 shrink-0 text-navy" strokeWidth={1.75} />
-                  <span className="text-sm font-semibold text-ink">{label}</span>
+                  {conteudo}
                 </a>
+              ) : (
+                <div key={item.pt} className={classe}>
+                  {conteudo}
+                </div>
               )
             })}
           </Reveal>
+
+          {!WHATSAPP && (
+            <p className="mt-5 text-center text-xs text-muted">
+              {es
+                ? 'Canal de atención 24h en configuración — disponible en breve.'
+                : 'Canal de atendimento 24h em configuração — disponível em breve.'}
+            </p>
+          )}
         </div>
       </div>
     </section>
