@@ -1,11 +1,16 @@
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
+import { authConfig } from '@/lib/auth.config'
 import { db } from '@/lib/db'
 import { users } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 import bcrypt from 'bcryptjs'
 
+// Config completa, para uso no SERVER (route handlers, server actions, páginas).
+// O middleware NÃO usa este módulo — ele importa lib/auth.config.ts, que não
+// toca o banco. Ver o comentário em lib/auth.config.ts.
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   providers: [
     Credentials({
       credentials: {
@@ -33,23 +38,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        token.role = user.role
-        token.id = user.id
-      }
-      return token
-    },
-    session({ session, token }) {
-      if (session.user) {
-        session.user.role = token.role as string
-        session.user.id = (token.id as string) ?? ''
-      }
-      return session
-    },
-  },
-  pages: {
-    signIn: '/auth/login',
-  },
 })

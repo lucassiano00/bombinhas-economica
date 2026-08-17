@@ -1,7 +1,14 @@
 // proxy.ts
-import { auth } from '@/lib/auth'
+//
+// Roda no edge. Importa lib/auth.config (sem banco), NAO lib/auth — este ultimo
+// arrasta o Neon pro bundle da edge function e quebra o build do Netlify.
+// Ver lib/auth.config.ts e tests/auth-edge-sem-banco.test.ts
+import NextAuth from 'next-auth'
+import { authConfig } from '@/lib/auth.config'
 import { NextResponse } from 'next/server'
 import { resolveLocale, needsLocalePrefix } from '@/lib/i18n'
+
+const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {
   const { pathname } = req.nextUrl
