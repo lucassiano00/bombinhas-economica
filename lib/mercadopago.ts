@@ -2,12 +2,35 @@
 import { MercadoPagoConfig, Preference, Payment } from 'mercadopago'
 import { planFor, type PlanId } from '@/lib/plans'
 
+// Só o cliente tem as credenciais do Mercado Pago, então o site pode estar no ar
+// sem elas. Antes, `process.env.X!` virava `undefined` em runtime e o checkout
+// morria com "Cannot read properties of undefined (reading 'replace')" — erro que
+// não diz nada a quem lê o log. Agora falta de env é uma falha nomeada.
+const REQUIRED_ENV = ['MP_ACCESS_TOKEN', 'NEXT_PUBLIC_APP_URL']
+
+export function mercadoPagoMissingEnv(): string[] {
+  return REQUIRED_ENV.filter((k) => !process.env[k]?.trim())
+}
+
+export function mercadoPagoConfigured(): boolean {
+  return mercadoPagoMissingEnv().length === 0
+}
+
+function assertConfigured() {
+  const missing = mercadoPagoMissingEnv()
+  if (missing.length > 0) {
+    throw new Error(`Checkout indisponível: falta configurar ${missing.join(', ')} no ambiente.`)
+  }
+}
+
 function client() {
-  return new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN! })
+  assertConfigured()
+  return new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN as string })
 }
 
 function appUrl() {
-  return process.env.NEXT_PUBLIC_APP_URL!.replace(/\/$/, '')
+  assertConfigured()
+  return (process.env.NEXT_PUBLIC_APP_URL as string).replace(/\/$/, '')
 }
 
 export type CreatePreferenceArgs = {

@@ -7,7 +7,12 @@ const insert = vi.fn(() => ({ values: insertValues }))
 vi.mock('@/lib/db', () => ({ db: { insert } }))
 
 const createPref = vi.fn()
-vi.mock('@/lib/mercadopago', () => ({ createCheckoutPreference: createPref, CARD_PRICE_CENTS: 9900 }))
+vi.mock('@/lib/mercadopago', () => ({
+  createCheckoutPreference: createPref,
+  CARD_PRICE_CENTS: 9900,
+  // registerClient checa isto antes de gravar; aqui o checkout está configurado.
+  mercadoPagoMissingEnv: () => [],
+}))
 
 const sendConfirmed = vi.fn()
 vi.mock('@/lib/email', () => ({ sendRegistrationConfirmed: sendConfirmed }))

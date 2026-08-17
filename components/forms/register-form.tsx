@@ -29,6 +29,9 @@ const COUNTRIES = [
 
 interface RegisterFormProps {
   locale?: Locale
+  /** Falso quando falta credencial do Mercado Pago no ambiente. Quem sabe disso é
+   *  o server component (MP_ACCESS_TOKEN é server-only), então vem por prop. */
+  checkoutReady?: boolean
 }
 
 const STRINGS = {
@@ -57,6 +60,8 @@ const STRINGS = {
     submit: 'Finalizar cadastro',
     submitting: 'Cadastrando…',
     errorNoCheckout: 'Não foi possível abrir o pagamento. Nada foi cobrado — tente novamente.',
+    checkoutUnavailable:
+      'O pagamento online está sendo configurado e ficará disponível em breve. Nenhum cadastro é aceito até lá — nada foi cobrado.',
     errorFallback: 'Erro ao cadastrar. Tente novamente.',
   },
   es: {
@@ -84,6 +89,8 @@ const STRINGS = {
     submit: 'Finalizar registro',
     submitting: 'Registrando…',
     errorNoCheckout: 'No pudimos abrir el pago. No se cobró nada — intentá nuevamente.',
+    checkoutUnavailable:
+      'El pago en línea se está configurando y estará disponible pronto. No se acepta ningún registro hasta entonces — no se cobró nada.',
     errorFallback: 'Error al registrarse. Intenta nuevamente.',
   },
 } as const
@@ -91,7 +98,7 @@ const STRINGS = {
 const SELECT_CLASS =
   'w-full bg-field text-ink text-sm px-3 py-2 border border-border rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-gold transition-colors'
 
-export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
+export function RegisterForm({ locale = 'pt', checkoutReady = true }: RegisterFormProps) {
   const s = STRINGS[locale]
   // Padrão no plano de entrada: quem quer mais dependentes sobe de plano de
   // propósito, em vez de descobrir no checkout que pagou o mais caro.
@@ -166,6 +173,15 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
     <Card className="max-w-md mx-auto">
       {/* validação básica nativa (required/email) — noValidate removido */}
       <form onSubmit={handleSubmit} className="space-y-4">
+        {!checkoutReady && (
+          <p
+            className="text-xs text-navy bg-gold/15 border border-gold/40 px-3 py-2 rounded-lg"
+            role="status"
+          >
+            {s.checkoutUnavailable}
+          </p>
+        )}
+
         {error && (
           <p className="text-xs text-danger bg-danger/10 px-3 py-2 rounded-lg" role="alert">
             {error}
@@ -299,7 +315,11 @@ export function RegisterForm({ locale = 'pt' }: RegisterFormProps) {
           </Button>
         )}
 
-        <Button type="submit" disabled={loading} className="w-full py-3 text-sm tracking-wide">
+        <Button
+          type="submit"
+          disabled={loading || !checkoutReady}
+          className="w-full py-3 text-sm tracking-wide"
+        >
           {loading ? s.submitting : s.submit}
         </Button>
         <p className="text-center text-xs text-muted">

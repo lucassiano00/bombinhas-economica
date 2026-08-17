@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { SiteHeader } from '@/components/site/header'
 import { SiteFooter } from '@/components/site/footer'
 import { RegisterForm } from '@/components/forms/register-form'
+import { mercadoPagoConfigured } from '@/lib/mercadopago'
 
 const PAGE_STRINGS: Record<Locale, { heading: string; subtitle: string }> = {
   pt: {
@@ -35,7 +36,10 @@ export default async function CadastroPage({ params }: { params: Promise<{ local
 
       <main className="min-h-[calc(100vh-280px)] bg-section py-12 px-4">
         <div className="mx-auto max-w-md">
-          <RegisterForm locale={locale} />
+          {/* Server component: só aqui dá pra ver MP_ACCESS_TOKEN (server-only).
+              Sem credencial, o form desabilita o botão em vez de deixar o
+              usuário submeter e tomar erro no checkout. */}
+          <RegisterForm locale={locale} checkoutReady={mercadoPagoConfigured()} />
         </div>
       </main>
 

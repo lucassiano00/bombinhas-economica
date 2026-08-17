@@ -4,7 +4,7 @@ import { db } from '@/lib/db'
 import { users, clients, dependents, payments } from '@/lib/db/schema'
 import bcrypt from 'bcryptjs'
 import { sendRegistrationConfirmed } from '@/lib/email'
-import { createCheckoutPreference } from '@/lib/mercadopago'
+import { createCheckoutPreference, mercadoPagoMissingEnv } from '@/lib/mercadopago'
 import { assertPlanAllowsDependents, planFor, type PlanId } from '@/lib/plans'
 
 type DependentInput = {
@@ -32,6 +32,15 @@ type RegisterInput = {
 export async function registerClient(
   input: RegisterInput
 ): Promise<{ success: boolean; initPoint: string }> {
+  // Isto vem PRIMEIRO, antes de qualquer INSERT: este action grava
+  // users/clients/dependents/payments e só depois chama o Mercado Pago. Sem
+  // credencial, o cadastro ficaria gravado e órfão, sem pagamento nenhum.
+  // Ver tests/checkout-indisponivel.test.ts
+  const missingMp = mercadoPagoMissingEnv()
+  if (missingMp.length > 0) {
+    throw new Error(`Checkout indisponível: falta configurar ${missingMp.join(', ')} no ambiente.`)
+  }
+
   // Antes de gravar qualquer coisa: o plano define o preço E o teto de
   // dependentes, e os dois vêm do navegador. Sem esta checagem dá pra pedir o
   // plano individual com 4 dependentes.
