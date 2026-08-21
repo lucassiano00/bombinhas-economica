@@ -28,8 +28,12 @@ beforeEach(() => {
     .mockResolvedValueOnce([{ id: 'user_2' }]) // users (test 2)
     .mockResolvedValueOnce([{ id: 'client_2' }]) // clients (test 2)
     .mockResolvedValueOnce([{ id: 'pay_2' }]) // payments (test 2)
+    .mockResolvedValueOnce([{ id: 'user_3' }]) // users (test 3)
+    .mockResolvedValueOnce([{ id: 'client_3' }]) // clients (test 3)
+    .mockResolvedValueOnce([{ id: 'pay_3' }]) // payments (test 3)
   insert.mockReturnValue({ values: insertValues })
   createPref.mockResolvedValue({ preferenceId: 'pref_1', initPoint: 'https://mp/checkout' })
+  sendConfirmed.mockResolvedValue(undefined)
 })
 
 describe('registerClient', () => {
@@ -82,5 +86,31 @@ describe('registerClient', () => {
     })
     // db.insert called 4 times: users, clients, dependents, payments
     expect(insert).toHaveBeenCalledTimes(4)
+  })
+
+  // O dominio do remetente nao existe (NXDOMAIN), entao o Resend recusa o envio.
+  // Antes do try/catch isso derrubava a action DEPOIS de gravar tudo: o assinante
+  // ficava no banco sem receber o link, e nao conseguia refazer o cadastro porque
+  // users.email e unique. Uma cortesia que falha nao pode custar a venda.
+  it('ainda devolve o initPoint quando o e-mail de confirmacao falha', async () => {
+    sendConfirmed.mockRejectedValueOnce(new Error('domain is not verified'))
+    const { registerClient } = await import('@/lib/actions/register')
+
+    const res = await registerClient({
+      email: 'a@b.com',
+      password: 'secret123',
+      fullName: 'Ana',
+      phone: '+5547999990000',
+      country: 'BR',
+      clientType: 'brazilian',
+      documentType: 'cpf',
+      documentNumber: '12345678901',
+      locale: 'pt',
+      plan: 'individual',
+      dependentsList: [],
+    })
+
+    expect(sendConfirmed).toHaveBeenCalled()
+    expect(res).toEqual({ success: true, initPoint: 'https://mp/checkout' })
   })
 })
