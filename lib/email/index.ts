@@ -2,7 +2,10 @@ import { Resend } from 'resend'
 import { PLANS, formatPrice, type PlanId } from '@/lib/plans'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM = 'Bombinhas+ Econômica <noreply@bombinhaseconomica.com.br>'
+// Remetente por ambiente: o dominio bombinhaseconomica.com.br NAO esta registrado
+// (NXDOMAIN em 20/08/2026), entao o Resend nao consegue verifica-lo e recusa o envio.
+// Trocar por um remetente valido e questao de env, nao de deploy.
+const FROM = process.env.EMAIL_FROM ?? 'Bombinhas+ Econômica <noreply@bombinhaseconomica.com.br>'
 
 function appUrl() {
   return (process.env.NEXT_PUBLIC_APP_URL ?? '').replace(/\/$/, '')

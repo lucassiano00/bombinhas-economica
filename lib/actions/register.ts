@@ -95,12 +95,24 @@ export async function registerClient(
     plan: input.plan,
   })
 
-  await sendRegistrationConfirmed({
-    to: input.email,
-    name: input.fullName,
-    locale: input.locale,
-    plan: input.plan,
-  })
+  // O e-mail de confirmacao e cortesia; o link de pagamento e o produto. Sem este
+  // try/catch, uma falha no Resend derrubava a action DEPOIS de gravar usuario,
+  // cliente e pagamento: o assinante ficava no banco, nunca via o initPoint e nao
+  // conseguia refazer o cadastro (users.email e unique). Falhar aqui nao pode
+  // custar a venda.
+  try {
+    await sendRegistrationConfirmed({
+      to: input.email,
+      name: input.fullName,
+      locale: input.locale,
+      plan: input.plan,
+    })
+  } catch (erro) {
+    console.error('[register] falha ao enviar e-mail de confirmacao', {
+      paymentId: payment.id,
+      erro: erro instanceof Error ? erro.message : erro,
+    })
+  }
 
   return { success: true, initPoint }
 }
